@@ -28,14 +28,18 @@ from .zones import extract_zones
 Progress = Callable[[str, float], None]
 
 
-def final_class(classes: np.ndarray, zones_found: int, aoi: np.ndarray) -> Level:
-    """Regra do doc 05 §7."""
+def final_class(classes: np.ndarray, largest_zone_km2: float, aoi: np.ndarray) -> Level:
+    """Classe final do alvo (docs/05 §7).
+
+    Alta: zona grande (>= final_high_zone_km2) ou >= 10 % da área em classe Alta.
+    Média: existe alguma zona, ou >= 20 % da área em Média+Alta.
+    """
     total = max(int(aoi.sum()), 1)
     high = float(((classes == 2) & aoi).sum()) / total
     mid_up = float(((classes >= 1) & (classes != 255) & aoi).sum()) / total
-    if zones_found > 0 or high >= 0.10:
+    if largest_zone_km2 >= SETTINGS.final_high_zone_km2 or high >= 0.10:
         return Level.HIGH
-    if mid_up >= 0.20:
+    if largest_zone_km2 > 0 or mid_up >= 0.20:
         return Level.MEDIUM
     return Level.LOW
 
@@ -144,6 +148,7 @@ def run(request: AnalysisRequest, progress: Progress | None = None) -> AnalysisR
             warnings.append(f"Sem camadas disponíveis para {target.value}.")
             continue
         score = scoring.weighted_score(layers, weights)
+        score = scoring.smooth(score, SETTINGS.score_smoothing_m / res)
         score = np.where(aoi, score, np.nan).astype(np.float32)
         classes = scoring.classify(score, SETTINGS.threshold_medium, SETTINGS.threshold_high)
         classes = np.where(aoi, classes, 255).astype(np.uint8)
@@ -165,7 +170,7 @@ def run(request: AnalysisRequest, progress: Progress | None = None) -> AnalysisR
         valid = float(np.mean(list(quality.values()))) if quality else 0.0
         targets[target] = TargetResult(
             target=target,
-            final_class=final_class(classes, len(zones), aoi),
+            final_class=final_class(classes, max((z.area_km2 for z in zones), default=0.0), aoi),
             confidence=confidence(valid, has_geology),
             score=score,
             classes=classes,

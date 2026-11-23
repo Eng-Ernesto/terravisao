@@ -71,7 +71,12 @@ class Settings:
     percentiles: tuple[float, float] = (2.0, 98.0)
     threshold_medium: float = 0.40
     threshold_high: float = 0.65
-    min_zone_area_km2: float = 0.5
+    # Suavização da pontuação antes de classificar (m). 0 desliga.
+    score_smoothing_m: float = 100.0
+    # 5 ha: menor mancha que vale a pena visitar. [A CALIBRAR] com o geofísico.
+    min_zone_area_km2: float = 0.05
+    # Zona mínima para o alvo ser classificado como Alta no terreno todo (50 ha).
+    final_high_zone_km2: float = 0.5
     weights: dict[Target, dict[str, float]] = field(default_factory=lambda: dict(DEFAULT_WEIGHTS))
 
 

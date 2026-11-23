@@ -88,10 +88,10 @@ Fórmula: `score(pixel) = Σ (peso_i × camada_i(pixel))`, só sobre camadas dis
 | Média | 0.40 – 0.65 |
 | Alta | ≥ 0.65 |
 
-Os limiares aplicam-se ao raster. O resultado "final" por alvo para a AOI inteira usa a **fracção da área em classe Alta/Média** e a pontuação máxima de zona, segundo regra a fixar:
+Antes de classificar, a pontuação é suavizada com um filtro gaussiano que ignora NaN (`score_smoothing_m = 100 m`), para evitar zonas fragmentadas por ruído de pixel. Os limiares aplicam-se ao raster suavizado. O resultado "final" por alvo para a AOI inteira usa a **fracção da área em classe Alta/Média** e a pontuação máxima de zona, segundo regra a fixar:
 
-- **Alta** se existir pelo menos uma zona ≥ área mínima (ex.: 0.5 km²) [A CALIBRAR], ou ≥ 10 % da AOI em Alta.
-- **Média** se não for Alta e ≥ 20 % da AOI em Média+Alta.
+- **Alta** se existir uma zona ≥ `final_high_zone_km2` (0.5 km²) [A CALIBRAR], ou ≥ 10 % da AOI em Alta.
+- **Média** se não for Alta e existir alguma zona (≥ `min_zone_area_km2` = 0.05 km², 5 ha), ou ≥ 20 % da AOI em Média+Alta.
 - **Baixa** nos restantes casos.
 
 ## 8. Zonas

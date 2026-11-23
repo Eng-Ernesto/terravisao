@@ -48,6 +48,23 @@ def weighted_score(layers: dict[str, np.ndarray], weights: dict[str, float]) -> 
     return out
 
 
+def smooth(score: np.ndarray, sigma_px: float) -> np.ndarray:
+    """Suavização gaussiana que ignora NaN (convolução normalizada).
+
+    Agrega a pontuação em manchas contínuas, evitando zonas fragmentadas por ruído de pixel.
+    """
+    if sigma_px <= 0:
+        return score
+    from scipy import ndimage
+
+    ok = np.isfinite(score)
+    num = ndimage.gaussian_filter(np.where(ok, score, 0.0).astype(np.float32), sigma_px)
+    den = ndimage.gaussian_filter(ok.astype(np.float32), sigma_px)
+    out = np.full(score.shape, np.nan, dtype=np.float32)
+    np.divide(num, den, out=out, where=(den > 1e-3) & ok)
+    return out
+
+
 def classify(
     score: np.ndarray,
     threshold_medium: float | None = None,

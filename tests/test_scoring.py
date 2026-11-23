@@ -39,3 +39,27 @@ def test_indices_known_values():
     assert indices.iron_oxide(one, two)[0] == 2.0
     assert indices.ndvi(one, two)[0] == pytest.approx(1 / 3)
     assert np.isnan(indices.clay(one, np.array([0.0], dtype=np.float32))[0])
+
+
+def test_smooth_ignores_nan_and_keeps_range():
+    from terravisao.scoring import smooth
+
+    s = np.full((20, 20), 0.8, dtype=np.float32)
+    s[:, :3] = np.nan
+    out = smooth(s, 2.0)
+    assert np.isnan(out[:, :3]).all()
+    assert np.allclose(out[:, 5:], 0.8, atol=1e-3)  # NaN não puxa o valor para baixo
+
+
+def test_smooth_merges_fragments():
+    from scipy import ndimage
+
+    from terravisao.scoring import classify, smooth
+
+    s = np.full((30, 30), 0.3, dtype=np.float32)
+    s[10:20, 10:20] = 0.9
+    s[14, 10:20] = 0.3  # linha de ruído que parte a mancha em duas
+    _, raw_parts = ndimage.label(classify(s) == 2)
+    _, smooth_parts = ndimage.label(classify(smooth(s, 1.5)) == 2)
+    assert raw_parts == 2
+    assert smooth_parts == 1

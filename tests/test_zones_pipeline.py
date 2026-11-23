@@ -41,11 +41,12 @@ def test_min_zone_area_filters_small():
 def test_final_class_rules():
     aoi = np.ones((10, 10), dtype=bool)
     low = np.zeros((10, 10), dtype=np.uint8)
-    assert final_class(low, 0, aoi) == Level.LOW
+    assert final_class(low, 0.0, aoi) == Level.LOW
     mid = low.copy()
     mid[:3, :] = 1  # 30 % em média
-    assert final_class(mid, 0, aoi) == Level.MEDIUM
-    assert final_class(low, 1, aoi) == Level.HIGH
+    assert final_class(mid, 0.0, aoi) == Level.MEDIUM
+    assert final_class(low, 0.1, aoi) == Level.MEDIUM  # zona pequena
+    assert final_class(low, 0.6, aoi) == Level.HIGH
 
 
 def test_confidence_levels():

@@ -33,7 +33,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] T-112 Pontuação, classes, renormalização de camadas ausentes
 - [x] T-113 Zonas
 - [x] T-114 `pipeline.run` e proveniência
-- [ ] Afinar zonas: em Longonjo as manchas de classe Alta ficaram abaixo de 0,5 km² e nenhuma zona foi gerada (suavizar antes de classificar ou baixar a área mínima)
+- [x] Afinar zonas: suavização de 100 m e área mínima 0,05 km²; Longonjo passou a gerar 1 a 2 zonas por alvo (6 a 26 ha). Limiares ainda por calibrar com geofísico
 - [ ] Acelerar descarga Sentinel-2: 1.ª execução 7 min 53 s (6 cenas, ~28 km²); com cache 1,9 s. Testar menos cenas, janelas menores e leitura em paralelo (T-006)
 - [ ] T-115 Testes com rasters sintéticos e uma AOI real
 - [x] CLI `terravisao run <aoi.geojson>` produz GeoTIFF e GeoJSON (corrido em Longonjo 5×5 km; falta verificar reprodutibilidade e T-115)
