@@ -68,6 +68,8 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 [tool.ruff.lint.per-file-ignores]
 # CSS e HTML embebidos têm linhas longas por natureza.
 "app/**" = ["E501"]
+# Textos do relatório em português, com frases longas.
+"src/terravisao/report/pdf.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -75,7 +77,7 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*"]
+module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*", "reportlab.*"]
 ignore_missing_imports = true
 
 # Bibliotecas científicas sem tipos: não exigir tipagem nas chamadas a elas.

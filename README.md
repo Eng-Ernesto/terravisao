@@ -41,7 +41,14 @@ pip install -e ".[geo,app]"
 streamlit run app/streamlit_app.py
 ```
 
-Abre com os dados de demonstração de `data/demo/` (Longonjo).
+Abre com os dados de demonstração de `data/demo/` (Longonjo). Em «Nova análise» desenha-se um terreno, corre-se a análise e exporta-se o relatório PDF.
+
+Pela linha de comandos:
+
+```powershell
+terravisao run data/samples/longonjo.geojson --out output/longonjo
+terravisao report output/longonjo
+```
 
 ## Estrutura
 

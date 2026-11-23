@@ -47,8 +47,8 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] T-204 Camadas e probabilidade no mapa (sobre dados de demonstração)
 - [x] T-205 Resumo, tabela de zonas e contribuições (sem cartões)
 - [ ] T-206 Recomendações por zona
-- [ ] T-207 Relatório PDF
-- [ ] T-208 Exportação GeoTIFF/GeoJSON/JSON
+- [x] T-207 Relatório PDF (8 páginas, ~750 KB: resumo, mapas, zonas, camadas de apoio, metodologia, limitações, proveniência)
+- [x] T-208 Exportação GeoTIFF/GeoJSON/JSON (zip na app)
 - [ ] T-209 Mensagens de erro e estados
 - [ ] T-210 Vista 3D opcional (RF-24)
 - [ ] T-211 Assistente: ferramentas sobre o resultado
@@ -57,7 +57,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] T-214 Assistente: painel de chat e consentimento
 - [ ] T-215 Assistente: texto do relatório
 - [ ] T-216 Assistente: testes de avaliação
-- [ ] Fluxo desenho → resultado → PDF funciona (marco M2): desenho → análise → resultado já funciona em Longonjo (46,8 km² em cerca de 1 min); falta o PDF
+- [x] Fluxo desenho → resultado → PDF funciona (marco M2): testado em Longonjo, 46,8 km² em cerca de 1 min
 
 ## Fase 3 — Validação e piloto
 

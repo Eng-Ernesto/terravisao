@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import html
+import io
 import json
 import re
 import sys
+import tempfile
+import zipfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -57,6 +60,25 @@ FILL_MAP_CSS = (
     ".leaflet-container{position:absolute!important;inset:0;height:100%!important;width:100%!important}"
     "</style>"
 )
+
+
+@st.cache_data(show_spinner="A gerar o relatório…")
+def report_pdf(folder: str) -> bytes:
+    from terravisao.report import generate_report
+
+    out = Path(tempfile.mkdtemp()) / "relatorio.pdf"
+    return generate_report(Path(folder), out).read_bytes()
+
+
+@st.cache_data(show_spinner=False)
+def data_zip(folder: str) -> bytes:
+    """Pontuação, classes e zonas de cada alvo, camadas e run.json (RF-22)."""
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for f in sorted(Path(folder).iterdir()):
+            if f.suffix in {".tif", ".geojson", ".json"}:
+                zf.write(f, f.name)
+    return buf.getvalue()
 
 
 def label(text: str) -> None:
@@ -155,6 +177,21 @@ def results_view() -> None:
         show_zones = st.checkbox("Contornos das zonas", value=True)
         opacity = st.slider("Opacidade", 0.2, 1.0, 0.75, 0.05)
         basemap = st.radio("Base", ["Mapa claro", "Satélite"], horizontal=True)
+        label("Exportar")
+        st.download_button(
+            "Relatório (PDF)",
+            data=report_pdf(str(folder)),
+            file_name=f"terravisao_{folder.name}.pdf",
+            mime="application/pdf",
+            use_container_width=True,
+        )
+        st.download_button(
+            "Dados (GeoTIFF e GeoJSON)",
+            data=data_zip(str(folder)),
+            file_name=f"terravisao_{folder.name}_dados.zip",
+            mime="application/zip",
+            use_container_width=True,
+        )
     sidebar_footer()
 
     res = run["summary"]["targets"][target]

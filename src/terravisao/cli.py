@@ -33,11 +33,21 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--targets", default="ferro,cobre,ouro,agua")
     run.add_argument("--out", type=Path, default=Path("output"))
 
+    rep = sub.add_parser("report", help="Gera o relatório PDF de uma pasta de resultados")
+    rep.add_argument("folder", type=Path)
+    rep.add_argument("--out", type=Path, default=None)
+
     sub.add_parser("cache-clear", help="Apaga a cache de descargas")
     args = parser.parse_args(argv)
 
     if args.cmd == "cache-clear":
         print(f"{cache.clear()} ficheiros apagados")
+        return 0
+
+    if args.cmd == "report":
+        from .report import generate_report
+
+        print(generate_report(args.folder, args.out))
         return 0
 
     geometry = _read_geometry(args.geojson)

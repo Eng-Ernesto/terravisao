@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - run: pip install -e ".[geo,dev]"
+      - run: pip install -e ".[geo,report,dev]"
       - run: ruff check .
       - run: ruff format --check .
       - run: mypy
