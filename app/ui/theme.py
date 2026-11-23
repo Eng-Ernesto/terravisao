@@ -78,5 +78,10 @@ table.tv-zones td {{ border-bottom:1px solid var(--line); padding:9px 10px 9px 0
 .tv-contrib {{ display:flex; flex-direction:column; gap:3px; min-width:160px; }}
 .tv-contrib div {{ display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-soft); }}
 .tv-contrib i {{ display:block; height:4px; background:var(--ink); opacity:.75; border-radius:2px; }}
+.tv-status {{ display:flex; align-items:center; gap:10px; font-size:13.5px; margin:0 0 10px 0; min-height:22px; }}
+.tv-status .tv-num {{ color:var(--ink-soft); }}
+.tv-hint {{ color:var(--ink-soft); font-size:12.5px; line-height:1.5; margin:6px 0 10px 0; }}
+.stButton > button[kind="primary"] {{ background:var(--oxide); border:1px solid var(--oxide); color:#fff; border-radius:4px; font-weight:600; width:100%; }}
+.stButton > button[kind="primary"]:disabled {{ background:var(--line); border-color:var(--line); color:var(--ink-soft); }}
 .tv-note {{ color:var(--ink-soft); font-size:12px; margin-top:12px; }}
 """

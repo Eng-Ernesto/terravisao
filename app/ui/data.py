@@ -17,7 +17,9 @@ from pyproj import Transformer
 
 from .theme import LEVEL_COLOR, OCHRE, OXIDE, PAPER
 
-DEMO_DIR = Path(__file__).resolve().parents[2] / "data" / "demo"
+ROOT = Path(__file__).resolve().parents[2]
+DEMO_DIR = ROOT / "data" / "demo"
+RUNS_DIR = ROOT / "data" / "cache" / "runs"  # análises feitas na app
 
 INDEX_RAMP = LinearSegmentedColormap.from_list("tv_index", [PAPER, OCHRE, OXIDE, "#4A1F10"])
 SCORE_RAMP = LinearSegmentedColormap.from_list("tv_score", ["#F4F1EA", "#E3B98A", OXIDE, "#4A1F10"])
@@ -25,14 +27,16 @@ RAMPS = {"score": SCORE_RAMP, "index": INDEX_RAMP, "relief": colormaps["gray"]}
 
 
 def list_demos() -> dict[str, Path]:
+    """Demonstrações incluídas e análises feitas na app (as mais recentes primeiro)."""
     out: dict[str, Path] = {}
-    if DEMO_DIR.exists():
-        for d in sorted(DEMO_DIR.iterdir()):
+    for base, newest_first in ((DEMO_DIR, False), (RUNS_DIR, True)):
+        if not base.exists():
+            continue
+        for d in sorted(base.iterdir(), reverse=newest_first):
             if (d / "run.json").exists():
+                meta_file = d / "meta.json"
                 meta = (
-                    json.loads((d / "meta.json").read_text(encoding="utf-8"))
-                    if (d / "meta.json").exists()
-                    else {}
+                    json.loads(meta_file.read_text(encoding="utf-8")) if meta_file.exists() else {}
                 )
                 out[meta.get("title", d.name)] = d
     return out

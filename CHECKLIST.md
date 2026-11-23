@@ -41,9 +41,9 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 ## Fase 2 — Interface e relatório
 
 - [x] Direção visual definida (docs/12) e ecrã de resultados com dados reais de Longonjo (mapa, camadas, zonas); falta desenho do terreno e execução da análise na app
-- [ ] T-201 App: desenho, upload, coordenadas
-- [ ] T-202 Selecção de alvos e opções avançadas
-- [ ] T-203 Progresso e cancelamento
+- [x] T-201 App: desenho de polígono/rectângulo e upload de GeoJSON, com validação (falta: coordenadas manuais e KML)
+- [x] T-202 Selecção de alvos (falta: opções avançadas)
+- [x] T-203 Barra de progresso por etapa (falta: cancelamento)
 - [x] T-204 Camadas e probabilidade no mapa (sobre dados de demonstração)
 - [x] T-205 Resumo, tabela de zonas e contribuições (sem cartões)
 - [ ] T-206 Recomendações por zona
@@ -57,7 +57,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] T-214 Assistente: painel de chat e consentimento
 - [ ] T-215 Assistente: texto do relatório
 - [ ] T-216 Assistente: testes de avaliação
-- [ ] Fluxo desenho → resultado → PDF funciona (marco M2)
+- [ ] Fluxo desenho → resultado → PDF funciona (marco M2): desenho → análise → resultado já funciona em Longonjo (46,8 km² em cerca de 1 min); falta o PDF
 
 ## Fase 3 — Validação e piloto
 
