@@ -40,11 +40,12 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 
 ## Fase 2 — Interface e relatório
 
+- [x] Direção visual definida (docs/12) e ecrã de resultados com dados reais de Longonjo (mapa, camadas, zonas); falta desenho do terreno e execução da análise na app
 - [ ] T-201 App: desenho, upload, coordenadas
 - [ ] T-202 Selecção de alvos e opções avançadas
 - [ ] T-203 Progresso e cancelamento
-- [ ] T-204 Camadas e probabilidade no mapa
-- [ ] T-205 Cartões de resumo, tabela de zonas, contribuições
+- [x] T-204 Camadas e probabilidade no mapa (sobre dados de demonstração)
+- [x] T-205 Resumo, tabela de zonas e contribuições (sem cartões)
 - [ ] T-206 Recomendações por zona
 - [ ] T-207 Relatório PDF
 - [ ] T-208 Exportação GeoTIFF/GeoJSON/JSON

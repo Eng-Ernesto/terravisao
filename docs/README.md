@@ -4,7 +4,7 @@
 
 1. **Quem quer perceber o produto:** 01 → 09
 2. **Quem vai implementar:** 03 → 04 → 05 → 07 → 08
-3. **Quem vai desenhar a interface:** 02 → 06
+3. **Quem vai desenhar a interface:** 02 → 06 → 12
 4. **Quem vai validar a ciência (geofísicos):** 05 → 09 → 10
 
 ## Convenções

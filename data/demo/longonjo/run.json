@@ -1,0 +1,161 @@
+{
+  "provenance": {
+    "pipeline_version": "0.1.0",
+    "created_at": "2026-11-23T16:25:12.764180+00:00",
+    "scenes": {
+      "sentinel2": [
+        "S2B_33LWF_20260829_0_L2A",
+        "S2A_33LWF_20260826_1_L2A",
+        "S2C_33LWF_20260824_0_L2A",
+        "S2A_33LWF_20260816_1_L2A",
+        "S2B_33LWF_20260809_0_L2A",
+        "S2A_33LWF_20260806_1_L2A"
+      ]
+    },
+    "config_snapshot": {
+      "max_area_km2": 2500.0,
+      "grid_resolution_m": 20,
+      "season_months": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "ndvi_mask": 0.4,
+      "percentiles": [
+        2.0,
+        98.0
+      ],
+      "threshold_medium": 0.4,
+      "threshold_high": 0.65,
+      "score_smoothing_m": 100.0,
+      "min_zone_area_km2": 0.05,
+      "final_high_zone_km2": 0.5
+    },
+    "layer_quality": {
+      "sentinel2": 0.9999432599968793,
+      "dem": 1.0
+    }
+  },
+  "summary": {
+    "warnings": [
+      "Geologia indisponível (ferro): Sem ficheiro de geologia em data/reference/geologia/.",
+      "Geologia indisponível (cobre): Sem ficheiro de geologia em data/reference/geologia/.",
+      "Geologia indisponível (ouro): Sem ficheiro de geologia em data/reference/geologia/.",
+      "Geologia indisponível (agua): Sem ficheiro de geologia em data/reference/geologia/."
+    ],
+    "targets": {
+      "ferro": {
+        "classe_final": "media",
+        "confianca": "media",
+        "area_por_classe_km2": {
+          "baixa": 12.514,
+          "media": 17.04,
+          "alta": 0.364
+        },
+        "zonas": [
+          {
+            "id": "A",
+            "area_km2": 0.171,
+            "score_medio": 0.675
+          },
+          {
+            "id": "B",
+            "area_km2": 0.058,
+            "score_medio": 0.671
+          }
+        ]
+      },
+      "cobre": {
+        "classe_final": "media",
+        "confianca": "media",
+        "area_por_classe_km2": {
+          "baixa": 15.802,
+          "media": 13.723,
+          "alta": 0.393
+        },
+        "zonas": [
+          {
+            "id": "A",
+            "area_km2": 0.256,
+            "score_medio": 0.697
+          },
+          {
+            "id": "B",
+            "area_km2": 0.101,
+            "score_medio": 0.658
+          }
+        ]
+      },
+      "ouro": {
+        "classe_final": "media",
+        "confianca": "media",
+        "area_por_classe_km2": {
+          "baixa": 17.854,
+          "media": 11.775,
+          "alta": 0.289
+        },
+        "zonas": [
+          {
+            "id": "A",
+            "area_km2": 0.239,
+            "score_medio": 0.69
+          }
+        ]
+      },
+      "agua": {
+        "classe_final": "media",
+        "confianca": "media",
+        "area_por_classe_km2": {
+          "baixa": 15.716,
+          "media": 14.028,
+          "alta": 0.174
+        },
+        "zonas": [
+          {
+            "id": "A",
+            "area_km2": 0.173,
+            "score_medio": 0.673
+          }
+        ]
+      }
+    }
+  },
+  "request": {
+    "targets": [
+      "ferro",
+      "cobre",
+      "ouro",
+      "agua"
+    ],
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            15.25,
+            -12.95
+          ],
+          [
+            15.3,
+            -12.95
+          ],
+          [
+            15.3,
+            -12.9
+          ],
+          [
+            15.25,
+            -12.9
+          ],
+          [
+            15.25,
+            -12.95
+          ]
+        ]
+      ]
+    },
+    "name": "longonjo"
+  }
+}

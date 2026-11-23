@@ -21,6 +21,7 @@ Comece por [docs/README.md](docs/README.md), que tem o índice e a ordem de leit
 | [09 Riscos e limitações](docs/09-riscos-limitacoes.md) | Riscos técnicos, científicos e de produto |
 | [10 Decisões e questões abertas](docs/10-decisoes-questoes-abertas.md) | ADRs e perguntas a resolver |
 | [11 Glossário](docs/11-glossario.md) | Termos técnicos e geológicos |
+| [12 Design e interface](docs/12-design-ui.md) | Direcção visual, paleta, tipografia, layout |
 | [Anexo: protótipo GeoExplora IA](docs/anexos/prototipo-geoexplora-ia.md) | Resumo do PDF anterior (Longonjo) |
 
 ## Arranque rápido
@@ -32,6 +33,15 @@ pip install -e ".[dev]"
 pytest
 terravisao check-aoi caminho\para\terreno.geojson
 ```
+
+## Ver a interface
+
+```powershell
+pip install -e ".[geo,app]"
+streamlit run app/streamlit_app.py
+```
+
+Abre com os dados de demonstração de `data/demo/` (Longonjo).
 
 ## Estrutura
 
