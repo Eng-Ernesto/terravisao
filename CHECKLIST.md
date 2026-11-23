@@ -50,6 +50,12 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] T-208 Exportação GeoTIFF/GeoJSON/JSON
 - [ ] T-209 Mensagens de erro e estados
 - [ ] T-210 Vista 3D opcional (RF-24)
+- [ ] T-211 Assistente: ferramentas sobre o resultado
+- [ ] T-212 Assistente: filtros estruturados
+- [ ] T-213 Assistente: fornecedores de LLM (offline, Claude, Ollama)
+- [ ] T-214 Assistente: painel de chat e consentimento
+- [ ] T-215 Assistente: texto do relatório
+- [ ] T-216 Assistente: testes de avaliação
 - [ ] Fluxo desenho → resultado → PDF funciona (marco M2)
 
 ## Fase 3 — Validação e piloto
@@ -66,6 +72,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 
 - [x] CI de testes e lint no GitHub
 - [ ] Termos de uso e aviso legal (Q-10)
+- [ ] Decidir fornecedor de LLM da demonstração (Q-14) e anomalias no MVP (Q-15)
 - [x] Distribuição por Docker local decidida (ADR-12)
 - [ ] Dockerfile e docker compose testados (build e arranque)
 - [ ] Dados de demonstração pré-calculados (Longonjo, Huíla)

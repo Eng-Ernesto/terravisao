@@ -16,6 +16,8 @@
 | US-10 | Como geofísico, ajusto pesos e limiares e reexecuto. | Could |
 | US-11 | Como utilizador, vejo avisos claros sobre limitações e incerteza. | Must |
 | US-12 | Como utilizador, vejo o terreno e as zonas em 3D para perceber a sua posição no relevo. | Should |
+| US-13 | Como utilizador, pergunto em linguagem natural sobre os resultados (ex.: "porque é que a zona A está em primeiro?") e recebo uma resposta simples. | Should |
+| US-14 | Como utilizador, filtro as zonas por pedido em linguagem natural (ex.: "só zonas de ferro com mais de 10 ha"). | Should |
 
 ## 2. Requisitos funcionais
 
@@ -49,6 +51,11 @@
 - **RF-21** Exporta PDF com mapas, tabelas, metodologia, limitações e data/versão dos dados.
 - **RF-22** Exporta GeoTIFF (probabilidade) e GeoJSON (zonas).
 - **RF-23** Todo relatório inclui o aviso de que se trata de triagem.
+- **RF-25** Assistente de chat no canto da interface que responde a perguntas sobre os resultados da análise actual. Lê só dados estruturados do resultado (zonas, contribuições, qualidade, avisos) através de funções fixas; não calcula nem inventa valores. (Should)
+- **RF-26** O assistente converte pedidos de filtro em linguagem natural num filtro estruturado validado; o código executa o filtro e a interface mostra as zonas resultantes. (Should)
+- **RF-27** O assistente gera o texto simples do relatório (resumo executivo e recomendações) a partir dos números do resultado. (Should)
+- **RF-28** Cada resposta cita os valores usados (zona, área, pontuação, camada) e repete o aviso de triagem quando fala de probabilidade ou recomendações. O assistente recusa afirmar presença certa de minério ou água. (Must, se o assistente existir)
+- **RF-29** O assistente é opcional e funciona sem internet nem chave, com respostas e relatório por modelos fixos. Com um fornecedor de modelo configurado, as respostas são em linguagem livre. O utilizador é avisado de que os dados do terreno são enviados ao fornecedor. (Must, se o assistente existir)
 - **RF-24** Vista 3D opcional: relevo do SRTM com a camada seleccionada (índice ou probabilidade) e as zonas sobrepostas, com exagero vertical ajustável. A vista 2D é a principal; a 3D nunca é necessária para concluir uma análise. (Prioridade Should)
 
 ## 3. Requisitos não funcionais

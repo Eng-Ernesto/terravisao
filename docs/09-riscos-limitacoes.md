@@ -37,6 +37,9 @@
 | P-03 | Falsos negativos fazem desistir de áreas boas | Mostrar confiança; "Baixa" não é "não existe" |
 | P-04 | Confidencialidade de terrenos dos clientes | Não partilhar nem treinar com dados sem consentimento (RNF-07) |
 | P-05 | Questões legais sobre direitos mineiros e licenças em Angola | Fora do âmbito; avisar que a ferramenta não substitui o enquadramento legal |
+| P-07 | O assistente inventa valores ou afirma certeza (alucinação) | Só lê dados do resultado por funções fixas, cita os valores, recusa afirmações de certeza e é testado com perguntas de referência (T-216) |
+| P-08 | Dados do terreno enviados a um fornecedor externo | Modo offline por defeito; consentimento explícito antes de enviar; aviso visível (RNF-07) |
+| P-09 | Chave de API exposta num repositório público | Chave só por variável de ambiente; `.env` no `.gitignore`; nada de chaves nos exemplos |
 | P-06 | Dois nomes (TerraVisão e GeoExplora IA) confundem a equipa | Resolvido: TerraVisão é o nome oficial (ADR-10) |
 
 ## 4. Texto de aviso padrão

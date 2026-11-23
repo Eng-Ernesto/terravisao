@@ -69,6 +69,15 @@ Resumo:
 - GeoTIFF de probabilidade, GeoJSON de zonas.
 - JSON com parâmetros e versões (reprodutibilidade).
 
+## 2.7 Assistente de chat (opcional)
+
+- Painel de chat fixo no canto/lado, recolhível, disponível só depois de existir um resultado.
+- Sugestões de perguntas ao abrir: "Resume o resultado", "Porque é que a zona A está em primeiro?", "Que método uso no campo?", "Mostra só zonas com mais de 10 ha".
+- Pedidos de filtro actualizam o mapa e a tabela de zonas; o chat mostra o filtro aplicado e pode ser desfeito.
+- Cada resposta indica de onde vêm os números (zona, camada) e leva a nota de triagem quando fala de probabilidade.
+- Indicador do modo: "Assistente offline (respostas padrão)" ou "Assistente com IA (dados enviados a <fornecedor>)". Consentimento explícito antes do primeiro envio.
+- Botão "Gerar texto do relatório" que alimenta o PDF (RF-27).
+
 ## 3. Cores e legenda
 
 - Classes: **Baixa** verde-claro/cinza, **Média** amarelo, **Alta** vermelho/laranja. Usar paleta acessível a daltonismo; não depender só da cor (texto e padrões na legenda).

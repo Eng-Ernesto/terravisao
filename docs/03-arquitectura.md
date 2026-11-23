@@ -57,6 +57,7 @@ Aplicação Python monolítica em camadas. A UI (Streamlit) só orquestra; toda 
 | Derivadas de terreno | scipy, scikit-image, whitebox ou richdem | Lineamentos e hidrologia |
 | ML | scikit-learn | Fase 2; no MVP só utilitários (normalização, clustering opcional) |
 | Relatório | matplotlib + reportlab ou WeasyPrint | |
+| Assistente (opcional) | Interface `LLMProvider` com fornecedores intermutáveis (API do Claude, modelo local via Ollama, modo offline com modelos fixos) | Ver ADR-14 |
 | Testes | pytest | |
 | Protótipo | Google Colab | Notebooks em `notebooks/` |
 | Packaging | uv ou pip + `pyproject.toml` | |
@@ -96,6 +97,24 @@ geofisica/
 ├── tests/
 └── .gitignore
 ```
+
+## 4.1 Assistente de chat (módulo opcional)
+
+```
+src/terravisao/assistant/
+├── tools.py        # funções fixas sobre AnalysisResult: list_zones, zone_detail, compare_zones, layer_stats, warnings
+├── filters.py      # esquema do filtro estruturado + validação + execução
+├── provider.py     # interface LLMProvider + fornecedores (claude, ollama, offline)
+├── prompts.py      # instruções de sistema (limitações, tom, proibições)
+└── report_text.py  # texto do relatório (modelos fixos + versão com LLM)
+```
+
+Regras de desenho:
+- O modelo **só vê** o que as funções de `tools.py` devolvem (JSON do resultado). Não tem acesso a rasters nem ao sistema de ficheiros.
+- Filtros: o modelo devolve JSON (`{"target": "ferro", "min_area_km2": 0.1}`); `filters.py` valida contra um esquema e o código executa. Pedido inválido é recusado, nunca executado.
+- Fornecedor escolhido por variáveis de ambiente (`TERRAVISAO_LLM=claude|ollama|offline`, `ANTHROPIC_API_KEY`). Chaves nunca entram no repositório.
+- Sem fornecedor ou sem internet: `offline`, com respostas por modelos fixos para perguntas frequentes.
+- Interface Streamlit: painel de chat lateral; nenhum cálculo científico passa por ele.
 
 ## 5. Princípios de implementação
 

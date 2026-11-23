@@ -48,6 +48,12 @@ Objectivo: confirmar o que pode bloquear o MVP antes de construir.
 | T-202 | Selecção de alvos e opções avançadas | RF-05 | S |
 | T-203 | Progresso e cancelamento | US-04 | M |
 | T-204 | Visualização de camadas e probabilidade | RF-18 | M |
+| T-211 | Assistente: ferramentas sobre o resultado (`tools.py`) e testes sem LLM | RF-25 | M |
+| T-212 | Assistente: filtros estruturados com validação (`filters.py`) | RF-26 | M |
+| T-213 | Assistente: interface `LLMProvider` com fornecedores offline, Claude e Ollama | RF-29 | M |
+| T-214 | Assistente: painel de chat no Streamlit, consentimento e indicador de modo | RF-25, RF-29 | M |
+| T-215 | Assistente: texto do relatório (modelos fixos + LLM) e integração no PDF | RF-27 | M |
+| T-216 | Assistente: testes de avaliação (perguntas de referência, recusa de afirmações de certeza, citação de valores) | RF-28 | M |
 | T-210 | Vista 3D opcional com pydeck (relevo + camada + zonas), depois de T-204 | RF-24 | M |
 | T-205 | Cartões de resumo, tabela de zonas, contribuições | RF-19, RNF-04 | M |
 | T-206 | Recomendações por zona | RF-20 | S |
