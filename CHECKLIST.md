@@ -52,7 +52,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] T-210 Vista 3D opcional (RF-24)
 - [ ] T-211 Assistente: ferramentas sobre o resultado
 - [ ] T-212 Assistente: filtros estruturados
-- [ ] T-213 Assistente: fornecedores de LLM (offline, Claude, Ollama)
+- [ ] T-213 Assistente: fornecedor Cloudflare Workers AI (token do utilizador) e tratamento de indisponibilidade
 - [ ] T-214 Assistente: painel de chat e consentimento
 - [ ] T-215 Assistente: texto do relatório
 - [ ] T-216 Assistente: testes de avaliação
@@ -72,7 +72,10 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 
 - [x] CI de testes e lint no GitHub
 - [ ] Termos de uso e aviso legal (Q-10)
-- [ ] Decidir fornecedor de LLM da demonstração (Q-14) e anomalias no MVP (Q-15)
+- [x] Fornecedor do assistente decidido: Cloudflare Workers AI com token do utilizador (ADR-15)
+- [ ] Escolher modelo do Workers AI em português (Q-16)
+- [ ] Decidir se anomalias entram no MVP (Q-15)
+- [ ] Verificar que a app inteira funciona com o assistente desligado (RF-30)
 - [x] Distribuição por Docker local decidida (ADR-12)
 - [ ] Dockerfile e docker compose testados (build e arranque)
 - [ ] Dados de demonstração pré-calculados (Longonjo, Huíla)

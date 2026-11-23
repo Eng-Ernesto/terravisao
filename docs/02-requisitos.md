@@ -55,7 +55,8 @@
 - **RF-26** O assistente converte pedidos de filtro em linguagem natural num filtro estruturado validado; o código executa o filtro e a interface mostra as zonas resultantes. (Should)
 - **RF-27** O assistente gera o texto simples do relatório (resumo executivo e recomendações) a partir dos números do resultado. (Should)
 - **RF-28** Cada resposta cita os valores usados (zona, área, pontuação, camada) e repete o aviso de triagem quando fala de probabilidade ou recomendações. O assistente recusa afirmar presença certa de minério ou água. (Must, se o assistente existir)
-- **RF-29** O assistente é opcional e funciona sem internet nem chave, com respostas e relatório por modelos fixos. Com um fornecedor de modelo configurado, as respostas são em linguagem livre. O utilizador é avisado de que os dados do terreno são enviados ao fornecedor. (Must, se o assistente existir)
+- **RF-29** O assistente é **opcional e nunca bloqueia o sistema**. Usa o Cloudflare Workers AI com o token do próprio utilizador (conta gratuita). Sem token, sem internet ou com a quota esgotada, o painel de chat mostra "Assistente indisponível" e todo o resto funciona igual; o texto do relatório cai para modelos fixos. O utilizador é avisado de que os dados do terreno são enviados à Cloudflare. (Must)
+- **RF-30** Qualquer falha do assistente (timeout, erro 403/429, resposta inválida) é capturada e nunca interrompe uma análise nem a exportação. Nenhum fluxo principal depende do assistente. (Must)
 - **RF-24** Vista 3D opcional: relevo do SRTM com a camada seleccionada (índice ou probabilidade) e as zonas sobrepostas, com exagero vertical ajustável. A vista 2D é a principal; a 3D nunca é necessária para concluir uma análise. (Prioridade Should)
 
 ## 3. Requisitos não funcionais

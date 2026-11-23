@@ -16,7 +16,8 @@
 | ADR-11 | Interface 2D em Streamlit com **vista 3D opcional via pydeck**. Sem Three.js no MVP | Resultados são mapas 2D; pydeck é nativo no Streamlit e trata de geo-coordenadas | Three.js (sem suporte geoespacial, exige componente próprio); frontend 3D completo com CesiumJS/React (fase 2, se justificado) |
 | ADR-12 | Distribuição do MVP para apresentação: **Docker local**. Quem quiser corre `docker compose up` a partir do repositório (que será público) e abre `localhost:8501`. A imagem inclui dados de demonstração pré-calculados (Longonjo, Huíla) para funcionar sem internet; a análise ao vivo é opcional | Custo zero, igual em qualquer computador, sem depender de servidor externo numa demonstração | Hospedagem online (Hugging Face Spaces, mesmo Dockerfile, fica como extra futuro); Streamlit em Cloudflare Workers (sem suporte a GDAL) |
 | ADR-13 | DEM = Copernicus GLO-30 (Earth Search/AWS) em vez de SRTM directo | Mesma resolução (~30 m), acesso aberto sem credenciais via STAC, mesmo cliente do Sentinel-2. SRTM fica como alternativa | SRTM via USGS (exige conta) |
-| ADR-14 | Papel da IA no MVP: **assistente de chat opcional** que interpreta os resultados (responde, filtra zonas, escreve o relatório). Lê só o resultado por funções fixas e não faz cálculos nem previsões. Fornecedor intermutável (Claude, Ollama, offline) | Utilidade real sem inventar ciência; honesto sobre o que é heurística; funciona offline no Docker | IA a prever minério sem dados rotulados; LLM com acesso livre aos dados |
+| ADR-14 | Papel da IA no MVP: **assistente de chat opcional, nunca um pilar**. Interpreta os resultados (responde, filtra zonas, escreve o relatório); lê só o resultado por funções fixas e não faz cálculos nem previsões. Todas as funções do sistema funcionam sem ele | Utilidade real sem inventar ciência; o produto não pode depender de um serviço externo | IA a prever minério sem dados rotulados; LLM com acesso livre aos dados |
+| ADR-15 | Fornecedor do assistente: **Cloudflare Workers AI**, com o token da conta (gratuita) de cada utilizador. Sem Claude nem Ollama: os computadores disponíveis são fracos para modelos locais | Plano gratuito (10 000 neurons/dia), sem custo para o projecto; cada utilizador gasta a sua quota e o token nunca vai para o repositório | Claude API (custo e chave); Ollama local (hardware fraco); token partilhado do dono (quota e risco) |
 | ADR-10 | Nome oficial do produto: **TerraVisão**. "GeoExplora IA" fica como nome do protótipo anterior (Q-06 resolvida) | Decisão do dono do projecto | Manter dois nomes |
 
 ## 2. Questões abertas
@@ -28,8 +29,8 @@
 | Q-03 | Pesos e limiares iniciais estão adequados? | Geofísico | Fase 3 |
 | Q-04 | Quais litologias de Angola são favoráveis a ferro, cobre, ouro, água? | Geofísico | Tabela de litologia |
 | Q-05 | folium Draw ou leafmap para desenhar polígonos no Streamlit? | Spike T-005 | UI |
-| Q-14 | Que fornecedor de LLM usar na demonstração (API do Claude com chave do apresentador, Ollama local ou só offline)? E quem paga o custo? | Dono do projecto | T-213 |
 | Q-15 | Deteção de anomalias não supervisionada (PCA/Isolation Forest) entra no MVP como camada opcional ou fica para a fase 2? | Dono do projecto | Posicionamento "IA" |
+| Q-16 | Que modelo do Workers AI no plano gratuito responde bem em português e segue instruções estritas (citar valores, recusar certezas)? | Spike no T-213 | T-213, T-216 |
 | Q-13 | O pydeck aguenta o relevo 3D com a camada de textura em AOIs grandes? Se não, reduzir resolução ou limitar a vista 3D a AOIs menores | Spike T-007 | RF-24 |
 | Q-08 | Quais são as áreas de teste e onde há verdade de campo (além de Longonjo)? | Geofísico | Validação |
 | Q-09 | Haverá acesso a dados nacionais (levantamentos aeromagnéticos do Instituto Geológico) para a fase 2? | Dono do projecto | Roadmap |

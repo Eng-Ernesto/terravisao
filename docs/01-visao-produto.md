@@ -66,3 +66,4 @@ O sistema faz exactamente três coisas.
 2. **Dados abertos primeiro:** só fontes gratuitas e com licença clara.
 3. **Simples antes de sofisticado:** pontuação ponderada e explicável antes de modelos opacos.
 4. **Explicável:** cada classe Alta/Média/Baixa deve poder ser justificada camada a camada.
+5. **A IA é opcional, nunca um pilar:** todas as funções (desenhar terreno, analisar, ver mapas e zonas, exportar relatório) funcionam sem IA. O assistente de chat só acrescenta conveniência. Se não houver internet, token ou quota, a plataforma continua a funcionar normalmente e o chat fica desactivado com uma mensagem clara.

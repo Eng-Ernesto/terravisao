@@ -75,7 +75,8 @@ Resumo:
 - Sugestões de perguntas ao abrir: "Resume o resultado", "Porque é que a zona A está em primeiro?", "Que método uso no campo?", "Mostra só zonas com mais de 10 ha".
 - Pedidos de filtro actualizam o mapa e a tabela de zonas; o chat mostra o filtro aplicado e pode ser desfeito.
 - Cada resposta indica de onde vêm os números (zona, camada) e leva a nota de triagem quando fala de probabilidade.
-- Indicador do modo: "Assistente offline (respostas padrão)" ou "Assistente com IA (dados enviados a <fornecedor>)". Consentimento explícito antes do primeiro envio.
+- Indicador do estado: "Assistente com IA (dados enviados à Cloudflare)" ou "Assistente indisponível: configure o token da Cloudflare para o activar". Consentimento explícito antes do primeiro envio.
+- Se o assistente falhar a meio (sem internet, quota esgotada), o painel mostra a mensagem e o resto da interface não é afectado.
 - Botão "Gerar texto do relatório" que alimenta o PDF (RF-27).
 
 ## 3. Cores e legenda

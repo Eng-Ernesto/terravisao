@@ -50,7 +50,7 @@ Objectivo: confirmar o que pode bloquear o MVP antes de construir.
 | T-204 | Visualização de camadas e probabilidade | RF-18 | M |
 | T-211 | Assistente: ferramentas sobre o resultado (`tools.py`) e testes sem LLM | RF-25 | M |
 | T-212 | Assistente: filtros estruturados com validação (`filters.py`) | RF-26 | M |
-| T-213 | Assistente: interface `LLMProvider` com fornecedores offline, Claude e Ollama | RF-29 | M |
+| T-213 | Assistente: fornecedor Cloudflare Workers AI (token do utilizador), testar modelos disponíveis no plano gratuito e a qualidade em português; tratamento de erros e indisponibilidade | RF-29, RF-30 | M |
 | T-214 | Assistente: painel de chat no Streamlit, consentimento e indicador de modo | RF-25, RF-29 | M |
 | T-215 | Assistente: texto do relatório (modelos fixos + LLM) e integração no PDF | RF-27 | M |
 | T-216 | Assistente: testes de avaliação (perguntas de referência, recusa de afirmações de certeza, citação de valores) | RF-28 | M |
