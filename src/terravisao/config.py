@@ -54,6 +54,14 @@ DEFAULT_WEIGHTS: dict[Target, dict[str, float]] = {
 }
 
 
+RECOMMENDATIONS: dict[Target, str] = {
+    Target.IRON: "Magnetometria e amostragem de superfície.",
+    Target.COPPER: "Polarização induzida (IP), magnetometria e geoquímica de solo.",
+    Target.GOLD: "Geoquímica de solo/sedimento de corrente, magnetometria e IP.",
+    Target.WATER: "Resistividade (SEV/tomografia); verificar furos existentes na zona.",
+}
+
+
 @dataclass(frozen=True)
 class Settings:
     max_area_km2: float = 2500.0

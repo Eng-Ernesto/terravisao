@@ -54,6 +54,15 @@ class Zone:
 
 
 @dataclass
+class Provenance:
+    pipeline_version: str
+    created_at: str
+    scenes: dict[str, list[str]]
+    config_snapshot: dict[str, Any]
+    layer_quality: dict[str, float]
+
+
+@dataclass
 class TargetResult:
     target: Target
     final_class: Level
@@ -62,3 +71,17 @@ class TargetResult:
     classes: np.ndarray  # 0 baixa, 1 média, 2 alta
     area_by_class_km2: dict[str, float]
     zones: list[Zone] = field(default_factory=list)
+
+
+@dataclass
+class AnalysisResult:
+    request: AnalysisRequest
+    grid: Any  # terravisao.grid.Grid
+    aoi_mask: np.ndarray
+    thematic: dict[str, np.ndarray]  # camadas para mapas (índices, elevação, declive…)
+    lineaments: list[Any]
+    basins: np.ndarray
+    targets: dict[Target, TargetResult]
+    zone_labels: dict[Target, np.ndarray]
+    provenance: Provenance
+    warnings: list[str] = field(default_factory=list)

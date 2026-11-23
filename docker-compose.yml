@@ -1,0 +1,11 @@
+services:
+  terravisao:
+    build: .
+    image: terravisao:dev
+    ports:
+      - "8501:8501"
+    volumes:
+      # Cache de descargas persiste entre execuções.
+      - ./data/cache:/srv/data/cache
+    environment:
+      TERRAVISAO_CACHE_DIR: /srv/data/cache

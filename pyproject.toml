@@ -69,3 +69,13 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 python_version = "3.11"
 strict = true
 files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*"]
+ignore_missing_imports = true
+
+# Bibliotecas científicas sem tipos: não exigir tipagem nas chamadas a elas.
+[[tool.mypy.overrides]]
+module = ["terravisao.*"]
+disallow_untyped_calls = false
+warn_return_any = false

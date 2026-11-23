@@ -14,6 +14,8 @@
 | ADR-08 | Resultado = probabilidade + confiança separadas | Honestidade científica | Só uma classe |
 | ADR-09 | Só fontes gratuitas e abertas | Custo zero | APIs comerciais |
 | ADR-11 | Interface 2D em Streamlit com **vista 3D opcional via pydeck**. Sem Three.js no MVP | Resultados são mapas 2D; pydeck é nativo no Streamlit e trata de geo-coordenadas | Three.js (sem suporte geoespacial, exige componente próprio); frontend 3D completo com CesiumJS/React (fase 2, se justificado) |
+| ADR-12 | Distribuição do MVP para apresentação: **Docker local**. Quem quiser corre `docker compose up` a partir do repositório (que será público) e abre `localhost:8501`. A imagem inclui dados de demonstração pré-calculados (Longonjo, Huíla) para funcionar sem internet; a análise ao vivo é opcional | Custo zero, igual em qualquer computador, sem depender de servidor externo numa demonstração | Hospedagem online (Hugging Face Spaces, mesmo Dockerfile, fica como extra futuro); Streamlit em Cloudflare Workers (sem suporte a GDAL) |
+| ADR-13 | DEM = Copernicus GLO-30 (Earth Search/AWS) em vez de SRTM directo | Mesma resolução (~30 m), acesso aberto sem credenciais via STAC, mesmo cliente do Sentinel-2. SRTM fica como alternativa | SRTM via USGS (exige conta) |
 | ADR-10 | Nome oficial do produto: **TerraVisão**. "GeoExplora IA" fica como nome do protótipo anterior (Q-06 resolvida) | Decisão do dono do projecto | Manter dois nomes |
 
 ## 2. Questões abertas
@@ -26,7 +28,6 @@
 | Q-04 | Quais litologias de Angola são favoráveis a ferro, cobre, ouro, água? | Geofísico | Tabela de litologia |
 | Q-05 | folium Draw ou leafmap para desenhar polígonos no Streamlit? | Spike T-005 | UI |
 | Q-13 | O pydeck aguenta o relevo 3D com a camada de textura em AOIs grandes? Se não, reduzir resolução ou limitar a vista 3D a AOIs menores | Spike T-007 | RF-24 |
-| Q-07 | Onde hospedar a demonstração (Streamlit Cloud, Hugging Face, VM)? | Dono do projecto | Limite de área |
 | Q-08 | Quais são as áreas de teste e onde há verdade de campo (além de Longonjo)? | Geofísico | Validação |
 | Q-09 | Haverá acesso a dados nacionais (levantamentos aeromagnéticos do Instituto Geológico) para a fase 2? | Dono do projecto | Roadmap |
 | Q-10 | Termos de uso e responsabilidade legal do relatório | Dono do projecto / jurídico | Lançamento |

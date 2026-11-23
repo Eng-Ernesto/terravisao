@@ -8,9 +8,9 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] Nome oficial decidido: TerraVisão (ADR-10)
 - [x] Decisão de interface: Streamlit 2D + 3D opcional com pydeck (ADR-11)
 - [x] Repositório criado e esqueleto do projecto (T-101)
-- [ ] T-001 Confirmar cobertura OneGeology para Angola (Q-01)
-- [ ] T-002 Spike Sentinel-2 via STAC e composto (Q-02)
-- [ ] T-003 Spike SRTM, declive e hillshade
+- [x] T-001 Confirmar cobertura OneGeology para Angola (Q-01)
+- [x] T-002 Spike Sentinel-2 via STAC e composto (Q-02)
+- [x] T-003 Spike SRTM, declive e hillshade
 - [ ] T-004 Spike extracção de lineamentos
 - [ ] T-005 Spike desenho de polígono no Streamlit (Q-05)
 - [ ] T-006 Medir tempo/memória para 10 km² e 2 500 km²
@@ -20,21 +20,23 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 
 ## Fase 1 — Núcleo de análise
 
-- [ ] T-102 `aoi`: validação, fronteira de Angola, UTM automático
-- [ ] T-103 `cache` com chaves e metadados
-- [ ] T-104 Ingestão Sentinel-2 com máscara e composto
-- [ ] T-105 Ingestão SRTM com preenchimento de vazios
+- [x] T-102 `aoi`: validação, fronteira de Angola, UTM automático
+- [x] T-103 `cache` com chaves e metadados
+- [x] T-104 Ingestão Sentinel-2 com máscara e composto
+- [x] T-105 Ingestão SRTM com preenchimento de vazios
 - [ ] T-106 Ingestão Landsat
-- [ ] T-107 Ingestão geologia
-- [ ] T-108 Índices espectrais (testes com valores conhecidos)
-- [ ] T-109 Derivadas de terreno (declive, hillshade, drenagem, bacias, TWI)
-- [ ] T-110 Lineamentos e densidade
-- [ ] T-111 Tabela de litologia e favorabilidade
-- [ ] T-112 Pontuação, classes, renormalização de camadas ausentes
-- [ ] T-113 Zonas
-- [ ] T-114 `pipeline.run` e proveniência
+- [ ] T-107 Ingestão geologia (código pronto; falta obter o shapefile BGS e validar licença)
+- [x] T-108 Índices espectrais (testes com valores conhecidos)
+- [x] T-109 Derivadas de terreno (declive, hillshade, drenagem, bacias, TWI)
+- [x] T-110 Lineamentos e densidade
+- [ ] T-111 Tabela de litologia e favorabilidade (código pronto; regras por preencher com geofísico)
+- [x] T-112 Pontuação, classes, renormalização de camadas ausentes
+- [x] T-113 Zonas
+- [x] T-114 `pipeline.run` e proveniência
+- [ ] Afinar zonas: em Longonjo as manchas de classe Alta ficaram abaixo de 0,5 km² e nenhuma zona foi gerada (suavizar antes de classificar ou baixar a área mínima)
+- [ ] Acelerar descarga Sentinel-2: 1.ª execução 7 min 53 s (6 cenas, ~28 km²); com cache 1,9 s. Testar menos cenas, janelas menores e leitura em paralelo (T-006)
 - [ ] T-115 Testes com rasters sintéticos e uma AOI real
-- [ ] CLI `terravisao run <aoi.geojson>` produz GeoTIFF e GeoJSON reprodutíveis (marco M1)
+- [x] CLI `terravisao run <aoi.geojson>` produz GeoTIFF e GeoJSON (corrido em Longonjo 5×5 km; falta verificar reprodutibilidade e T-115)
 
 ## Fase 2 — Interface e relatório
 
@@ -64,7 +66,9 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 
 - [x] CI de testes e lint no GitHub
 - [ ] Termos de uso e aviso legal (Q-10)
-- [ ] Decisão de hospedagem da demonstração (Q-07)
+- [x] Distribuição por Docker local decidida (ADR-12)
+- [ ] Dockerfile e docker compose testados (build e arranque)
+- [ ] Dados de demonstração pré-calculados (Longonjo, Huíla)
 - [ ] Atribuição de dados (Copernicus, USGS, OneGeology) na app e no PDF
 - [ ] Documentação de instalação testada em Windows e Linux
 - [ ] Notebook Colab equivalente ao pipeline

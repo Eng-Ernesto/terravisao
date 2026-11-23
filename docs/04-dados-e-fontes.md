@@ -57,6 +57,12 @@ Usado para: validação cruzada dos índices do Sentinel-2 e fallback quando o S
 
 - **OneGeology:** serviço WMS/WFS do mapa geológico global/regional. Verificar se existe cobertura de Angola com atributos litológicos úteis [A VERIFICAR]. Se só houver WMS (imagem), a litologia não é utilizável como dado; nesse caso considerar vectorização manual.
 - **Alternativa/complemento:** cartas geológicas digitalizadas e georreferenciadas a partir de fontes oficiais (Instituto Geológico de Angola) e do mapa USGS/regional.
+- **Resultado do spike T-001 (pesquisa, 2026-11-23):**
+  - Não encontrei um endpoint OneGeology (WMS/WFS) específico de Angola. Existe a camada continental CGMW-BRGM 1:10 000 000 de África (WMS, uso não comercial) — demasiado grosseira para o MVP.
+  - **Melhor candidato vectorial gratuito:** shapefile de Angola do **BGS Africa Groundwater Atlas** (geologia e hidrogeologia, 1:5 000 000, baseada em Persits et al. 2002 e Furon & Lombard 1964): https://www2.bgs.ac.uk/africaGroundwaterAtlas/downloadGIS.html. Serve também para o alvo água. Licença a confirmar antes de redistribuir.
+  - Alternativa continental: shapefile de litologia de África do USGS (2001), escala por confirmar.
+  - A melhor escala (carta geológica de Angola 1:1 000 000, 6 folhas, 1988) existe só em papel no Museu Real da África Central; digitalizar/vectorizar fica como plano B.
+  - Consequência: a litologia no MVP terá resolução grosseira (1:5M); peso moderado e confiança reduzida (L-05). Contactar o Instituto Geológico de Angola por dados melhores.
 - **Tabela de regras:** `data/reference/litologia_regras.csv` mapeia unidade/litologia → favorabilidade (0, 0.5, 1) por alvo. Preenchida e validada por geofísico. Exemplo de estrutura:
 
 | unidade | litologia | ferro | cobre | ouro | agua |
