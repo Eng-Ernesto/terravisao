@@ -15,7 +15,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] T-005 Spike desenho de polígono no Streamlit (Q-05)
 - [ ] T-006 Medir tempo/memória para 10 km² e 2 500 km²
 - [ ] T-007 Spike vista 3D com pydeck (Q-13)
-- [ ] Identificar geofísico revisor (Q-11)
+- [x] Geofísico revisor: o dono do projecto (Q-11)
 - [ ] Obter ficheiros do protótipo Longonjo (QGIS, amostras, Streamlit)
 
 ## Fase 1 — Núcleo de análise
@@ -25,7 +25,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] T-104 Ingestão Sentinel-2 com máscara e composto
 - [x] T-105 Ingestão SRTM com preenchimento de vazios
 - [ ] T-106 Ingestão Landsat
-- [ ] T-107 Ingestão geologia (código pronto; falta obter o shapefile BGS e validar licença)
+- [ ] T-107 Ingestão geologia (código pronto; decisão: seguir sem geologia, confiança no máximo "média"; shapefile BGS fica opcional)
 - [x] T-108 Índices espectrais (testes com valores conhecidos)
 - [x] T-109 Derivadas de terreno (declive, hillshade, drenagem, bacias, TWI)
 - [x] T-110 Lineamentos e densidade
@@ -34,7 +34,7 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] T-113 Zonas
 - [x] T-114 `pipeline.run` e proveniência
 - [x] Afinar zonas: suavização de 100 m e área mínima 0,05 km²; Longonjo passou a gerar 1 a 2 zonas por alvo (6 a 26 ha). Limiares ainda por calibrar com geofísico
-- [ ] Acelerar descarga Sentinel-2: 1.ª execução 7 min 53 s (6 cenas, ~28 km²); com cache 1,9 s. Testar menos cenas, janelas menores e leitura em paralelo (T-006)
+- [x] Acelerar descarga: opções GDAL (sem listar bucket, HTTP/2) e sem banda verde. Medido sem cache: 28 km² em 1 min 24 s (antes 7 min 53 s); 389 km² em 2 min 25 s. 2 500 km² por medir (T-006)
 - [ ] T-115 Testes com rasters sintéticos e uma AOI real
 - [x] CLI `terravisao run <aoi.geojson>` produz GeoTIFF e GeoJSON (corrido em Longonjo 5×5 km; falta verificar reprodutibilidade e T-115)
 

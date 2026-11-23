@@ -11,9 +11,10 @@ import numpy as np
 from .. import cache
 from ..grid import Grid
 from ..models import Unavailable
+from . import _rio
 
 STAC_URL = "https://earth-search.aws.element84.com/v1"
-BANDS = ["blue", "green", "red", "nir", "nir08", "swir16", "swir22"]
+BANDS = ["blue", "red", "nir", "nir08", "swir16", "swir22"]
 # SCL válido: 4 vegetação, 5 solo nu, 6 água, 7 não classificado (baixa prob.)
 SCL_VALID = (4, 5, 6, 7)
 
@@ -61,7 +62,7 @@ def fetch_sentinel2(
         from odc.geo.geobox import GeoBox
         from pystac_client import Client
 
-        odc.stac.configure_rio(cloud_defaults=True, aws={"aws_unsigned": True})
+        _rio.configure()
         bbox = grid.bbox_wgs84()
         items = list(
             Client.open(STAC_URL)

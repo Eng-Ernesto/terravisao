@@ -11,6 +11,7 @@ import numpy as np
 from .. import cache
 from ..grid import Grid
 from ..models import Unavailable
+from . import _rio
 from .sentinel2 import STAC_URL
 
 
@@ -26,7 +27,7 @@ def fetch_dem(grid: Grid) -> np.ndarray | Unavailable:
         from odc.geo.geobox import GeoBox
         from pystac_client import Client
 
-        odc.stac.configure_rio(cloud_defaults=True, aws={"aws_unsigned": True})
+        _rio.configure()
         items = list(
             Client.open(STAC_URL)
             .search(collections=["cop-dem-glo-30"], bbox=grid.bbox_wgs84())

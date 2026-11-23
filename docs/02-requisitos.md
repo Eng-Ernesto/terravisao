@@ -63,7 +63,7 @@
 
 | ID | Requisito | Meta |
 |---|---|---|
-| RNF-01 | Desempenho | 10 km² em ≤ 5 min; 2 500 km² em ≤ 20 min (com cache vazio) |
+| RNF-01 | Desempenho | 10 km² em ≤ 5 min; 2 500 km² em ≤ 20 min (com cache vazio). Medido: 28 km² em 1 min 24 s; 389 km² em 2 min 25 s; 2 500 km² por medir |
 | RNF-02 | Custo | Só serviços gratuitos |
 | RNF-03 | Reprodutibilidade | Mesma AOI + mesma versão de dados = mesmo resultado (guardar parâmetros e versões) |
 | RNF-04 | Explicabilidade | Contribuição de cada camada visível por zona |

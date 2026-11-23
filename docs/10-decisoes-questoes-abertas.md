@@ -18,6 +18,7 @@
 | ADR-13 | DEM = Copernicus GLO-30 (Earth Search/AWS) em vez de SRTM directo | Mesma resolução (~30 m), acesso aberto sem credenciais via STAC, mesmo cliente do Sentinel-2. SRTM fica como alternativa | SRTM via USGS (exige conta) |
 | ADR-14 | Papel da IA no MVP: **assistente de chat opcional, nunca um pilar**. Interpreta os resultados (responde, filtra zonas, escreve o relatório); lê só o resultado por funções fixas e não faz cálculos nem previsões. Todas as funções do sistema funcionam sem ele | Utilidade real sem inventar ciência; o produto não pode depender de um serviço externo | IA a prever minério sem dados rotulados; LLM com acesso livre aos dados |
 | ADR-15 | Fornecedor do assistente: **Cloudflare Workers AI**, com o token da conta (gratuita) de cada utilizador. Sem Claude nem Ollama: os computadores disponíveis são fracos para modelos locais | Plano gratuito (10 000 neurons/dia), sem custo para o projecto; cada utilizador gasta a sua quota e o token nunca vai para o repositório | Claude API (custo e chave); Ollama local (hardware fraco); token partilhado do dono (quota e risco) |
+| ADR-16 | Geologia não é bloqueante: o MVP segue sem mapa geológico e com confiança limitada a "média". O shapefile do BGS (1:5M) fica como melhoria opcional quando a licença for confirmada | Evita depender de licença por confirmar; a regra de confiança já cobre a ausência | Esperar pela geologia antes de avançar |
 | ADR-10 | Nome oficial do produto: **TerraVisão**. "GeoExplora IA" fica como nome do protótipo anterior (Q-06 resolvida) | Decisão do dono do projecto | Manter dois nomes |
 
 ## 2. Questões abertas
@@ -26,7 +27,7 @@
 |---|---|---|---|
 | Q-01 | O OneGeology tem cobertura vectorial de Angola com litologia utilizável? Que escala e licença? | Spike T-001 | Camada de litologia |
 | Q-02 | Qual fonte de Sentinel-2 usar: Copernicus Data Space, Planetary Computer ou AWS? | Spike T-002 | Módulo `ingest` |
-| Q-03 | Pesos e limiares iniciais estão adequados? | Geofísico | Fase 3 |
+| Q-03 | Pesos e limiares iniciais estão adequados? | Geofísico (o dono do projecto) | Fase 3 |
 | Q-04 | Quais litologias de Angola são favoráveis a ferro, cobre, ouro, água? | Geofísico | Tabela de litologia |
 | Q-05 | folium Draw ou leafmap para desenhar polígonos no Streamlit? | Spike T-005 | UI |
 | Q-15 | Deteção de anomalias não supervisionada (PCA/Isolation Forest) entra no MVP como camada opcional ou fica para a fase 2? | Dono do projecto | Posicionamento "IA" |
@@ -35,7 +36,6 @@
 | Q-08 | Quais são as áreas de teste e onde há verdade de campo (além de Longonjo)? | Geofísico | Validação |
 | Q-09 | Haverá acesso a dados nacionais (levantamentos aeromagnéticos do Instituto Geológico) para a fase 2? | Dono do projecto | Roadmap |
 | Q-10 | Termos de uso e responsabilidade legal do relatório | Dono do projecto / jurídico | Lançamento |
-| Q-11 | Quem é o geofísico revisor e com que disponibilidade? | Dono do projecto | Fase 3 |
 | Q-12 | O relatório PDF deve ter marca/logótipo? | Dono do projecto | T-207 |
 
 ## 3. Como registar novas decisões

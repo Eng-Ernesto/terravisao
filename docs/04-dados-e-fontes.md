@@ -73,6 +73,10 @@ Usado para: validação cruzada dos índices do Sentinel-2 e fallback quando o S
 
 Os valores acima são **ilustrativos**.
 
+## 5.1 Desempenho da leitura remota
+
+Ler COGs do S3 público ficou ~20× mais rápido com `GDAL_DISABLE_READDIR_ON_OPEN=EMPTY_DIR`, extensões restritas a `.tif`, HTTP/2 com multiplexagem e cache VSI (ver `ingest/_rio.py`). Resultado nos testes em Longonjo, sem cache: 28 km² em 1 min 24 s (antes 7 min 53 s) e 389 km² em 2 min 25 s.
+
 ## 6. Cache
 
 - Pasta `data/cache/`, fora do git.
