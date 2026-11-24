@@ -1,7 +1,7 @@
 {
   "provenance": {
     "pipeline_version": "0.1.0",
-    "created_at": "2026-11-23T16:25:12.764180+00:00",
+    "created_at": "2026-11-24T09:37:17.753434+00:00",
     "scenes": {
       "sentinel2": [
         "S2B_33LWF_20260829_0_L2A",

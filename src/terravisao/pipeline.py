@@ -103,6 +103,11 @@ def run(request: AnalysisRequest, progress: Progress | None = None) -> AnalysisR
             thematic[name] = arr
             raw[name] = scoring.normalize(arr)
         thematic["ndvi"] = veg
+        thematic["true_red"], thematic["true_green"], thematic["true_blue"] = (
+            b["red"],
+            b["green"],
+            b["blue"],
+        )
         raw["ndvi"] = scoring.normalize(veg)
         scenes["sentinel2"] = s2.scene_ids
         quality["sentinel2"] = s2.valid_fraction

@@ -19,6 +19,7 @@ from .theme import LEVEL_COLOR, OCHRE, OXIDE, PAPER
 
 ROOT = Path(__file__).resolve().parents[2]
 DEMO_DIR = ROOT / "data" / "demo"
+REFERENCE_DIR = ROOT / "data" / "reference"
 RUNS_DIR = ROOT / "data" / "cache" / "runs"  # análises feitas na app
 
 INDEX_RAMP = LinearSegmentedColormap.from_list("tv_index", [PAPER, OCHRE, OXIDE, "#4A1F10"])
@@ -71,8 +72,13 @@ def raster_overlay(
 ) -> tuple[str, list[list[float]]]:
     """PNG (data URI) + limites WGS84 para folium.ImageOverlay."""
     with rasterio.open(folder / f"{name}.tif") as src:
-        arr = src.read(1).astype("float32")
         bounds = _bounds_wgs84(src)
+        if kind == "rgb":
+            rgb = src.read([1, 2, 3]).astype("float32") / 255.0
+            alpha = (rgb.sum(axis=0) > 0) * opacity
+            rgba = np.dstack([np.moveaxis(rgb, 0, -1), alpha])
+            return _png_uri(rgba), bounds
+        arr = src.read(1).astype("float32")
     if kind == "class":
         rgba = np.zeros(arr.shape + (4,), dtype="float32")
         for code, level in ((0, "baixa"), (1, "media"), (2, "alta")):
@@ -85,7 +91,40 @@ def raster_overlay(
         norm = np.clip((arr - lo) / max(hi - lo, 1e-9), 0, 1)
         rgba = RAMPS[kind](norm)
         rgba[..., 3] = np.where(ok, opacity, 0.0)
+    return _png_uri(rgba), bounds
+
+
+def _png_uri(rgba: np.ndarray) -> str:
     img = Image.fromarray((rgba * 255).astype("uint8"), "RGBA")
     buf = io.BytesIO()
     img.save(buf, format="PNG")
-    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), bounds
+    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def has_layer(folder: Path, name: str) -> bool:
+    return (folder / f"{name}.tif").exists()
+
+
+def provinces() -> dict[str, Any]:
+    """Províncias de Angola (geoBoundaries, domínio público): base cartográfica offline."""
+    return json.loads((REFERENCE_DIR / "angola_provincias.geojson").read_text(encoding="utf-8"))
+
+
+_ONLINE_CACHE: dict[str, float] = {}
+
+
+def is_online(host: str = "server.arcgisonline.com", ttl: float = 60.0) -> bool:
+    """Há internet? Teste rápido de ligação, guardado durante `ttl` segundos."""
+    import socket
+    import time
+
+    now = time.time()
+    if "t" in _ONLINE_CACHE and now - _ONLINE_CACHE["t"] < ttl:
+        return bool(_ONLINE_CACHE["ok"])
+    try:
+        socket.create_connection((host, 443), timeout=1.5).close()
+        ok = 1.0
+    except OSError:
+        ok = 0.0
+    _ONLINE_CACHE.update(t=now, ok=ok)
+    return bool(ok)

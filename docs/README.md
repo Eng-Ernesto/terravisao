@@ -6,6 +6,7 @@
 2. **Quem vai implementar:** 03 → 04 → 05 → 07 → 08
 3. **Quem vai desenhar a interface:** 02 → 06 → 12
 4. **Quem vai validar a ciência (geofísicos):** 05 → 09 → 10
+5. **Quem vai apresentar ou testar a demonstração:** 13
 
 ## Convenções
 

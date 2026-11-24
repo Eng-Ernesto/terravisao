@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import math
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -16,6 +19,20 @@ from .config import SETTINGS
 # Caixa envolvente aproximada de Angola (inclui Cabinda). A validação final usa a fronteira
 # real em data/reference/angola_boundary.geojson (T-102).
 ANGOLA_BBOX = (11.5, -18.1, 24.1, -4.3)  # lon_min, lat_min, lon_max, lat_max
+
+
+BOUNDARY_FILE = Path("data/reference/angola_boundary.geojson")
+BOUNDARY_TOLERANCE_DEG = 0.02  # ~2 km: a fronteira do ficheiro é simplificada
+
+
+@lru_cache(maxsize=1)
+def _boundary() -> BaseGeometry | None:
+    """Fronteira de Angola (geoBoundaries, domínio público), se o ficheiro existir."""
+    if not BOUNDARY_FILE.exists():
+        return None
+    gj = json.loads(BOUNDARY_FILE.read_text(encoding="utf-8"))
+    geoms = [shape(f["geometry"]) for f in gj["features"]]
+    return shapely.union_all(geoms).buffer(BOUNDARY_TOLERANCE_DEG)
 
 
 class AoiError(ValueError):
@@ -55,6 +72,10 @@ def validate_aoi(geojson: dict[str, Any], max_area_km2: float | None = None) -> 
     lon_min, lat_min, lon_max, lat_max = ANGOLA_BBOX
     minx, miny, maxx, maxy = geom.bounds
     if minx < lon_min or maxx > lon_max or miny < lat_min or maxy > lat_max:
+        raise AoiError("O terreno tem de estar dentro de Angola.")
+
+    boundary = _boundary()
+    if boundary is not None and not geom.within(boundary):
         raise AoiError("O terreno tem de estar dentro de Angola.")
 
     area = area_km2(geom)

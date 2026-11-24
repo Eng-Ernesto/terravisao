@@ -27,6 +27,12 @@ def test_rejects_outside_angola():
         validate_aoi(square(30.0, 10.0, 0.05))
 
 
+def test_rejects_neighbour_country_inside_bbox():
+    # Dentro da caixa envolvente de Angola, mas na Zâmbia/RDC: só a fronteira real o rejeita.
+    with pytest.raises(AoiError, match="dentro de Angola"):
+        validate_aoi(square(24.0, -13.0, 0.05))
+
+
 def test_rejects_too_large():
     with pytest.raises(AoiError, match="O máximo"):
         validate_aoi(square(14.0, -15.0, 1.0))

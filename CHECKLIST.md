@@ -78,8 +78,11 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] Decidir se anomalias entram no MVP (Q-15)
 - [ ] Verificar que a app inteira funciona com o assistente desligado (RF-30)
 - [x] Distribuição por Docker local decidida (ADR-12)
-- [ ] Dockerfile e docker compose testados (build e arranque)
-- [ ] Dados de demonstração pré-calculados (Longonjo, Huíla)
+- [ ] Dockerfile e docker compose testados (build e arranque) — a testar no outro computador seguindo docs/13-guia-docker.md
+- [x] Dados de demonstração pré-calculados (Longonjo e Lubango/Huíla, com imagem de satélite)
+- [x] App 100% offline: fontes, Leaflet e fronteiras de Angola locais; base de satélite offline (Sentinel-2 RGB); confirmado que não há pedidos externos
+- [x] Guia de execução e validação em Docker (docs/13)
+- [x] Validação do terreno com a fronteira real de Angola (T-102)
 - [ ] Atribuição de dados (Copernicus, USGS, OneGeology) na app e no PDF
 - [ ] Documentação de instalação testada em Windows e Linux
 - [ ] Notebook Colab equivalente ao pipeline

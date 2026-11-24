@@ -34,6 +34,7 @@ LAYERS = {
     "oxido": ("Óxido de ferro", "index", "layer_iron_oxide"),
     "argila": ("Alteração argilosa", "index", "layer_clay"),
     "relevo": ("Relevo (sombreado)", "relief", "layer_hillshade"),
+    "rgb": ("Imagem de satélite", "rgb", "layer_rgb"),
 }
 LAYER_NAMES = {
     "iron_oxide": "Óxido de ferro",
@@ -57,9 +58,16 @@ PLACES = {
 ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/{}/MapServer/tile/{{z}}/{{y}}/{{x}}"
 FILL_MAP_CSS = (
     "<style>html,body,.float-child{height:100%;margin:0}"
-    ".leaflet-container{position:absolute!important;inset:0;height:100%!important;width:100%!important}"
-    "</style>"
+    ".leaflet-container{position:absolute!important;inset:0;height:100%!important;width:100%!important;"
+    "background:#EAE5D9!important}</style>"
 )
+# Leaflet servido localmente (app/static): o mapa funciona sem internet.
+STATIC = "/app/static/leaflet"
+LOCAL_JS = [("leaflet", f"{STATIC}/leaflet.js")]
+LOCAL_CSS = [("leaflet_css", f"{STATIC}/leaflet.css")]
+BASE_OFFLINE = "Offline"
+BASE_SAT = "Online: satélite"
+BASE_LIGHT = "Online: mapa claro"
 
 
 @st.cache_data(show_spinner="A gerar o relatório…")
@@ -96,19 +104,32 @@ def outlines(geometry: dict[str, Any]) -> list[list[list[float]]]:
     return [[[y, x] for x, y in p.exterior.coords] for p in polys]
 
 
-def new_map(lat: float, lon: float, zoom: int, satellite: bool) -> folium.Map:
-    tiles = ESRI.format("World_Imagery" if satellite else "Canvas/World_Light_Gray_Base")
+def base_options() -> list[str]:
+    """Offline sempre; bases online só quando há internet."""
+    return [BASE_OFFLINE, BASE_SAT, BASE_LIGHT] if data.is_online() else [BASE_OFFLINE]
+
+
+def new_map(lat: float, lon: float, zoom: int, base: str) -> folium.Map:
+    online = base in (BASE_SAT, BASE_LIGHT)
+    tiles = ESRI.format("World_Imagery" if base == BASE_SAT else "Canvas/World_Light_Gray_Base")
     m = folium.Map(
         location=[lat, lon],
         zoom_start=zoom,
-        tiles=tiles,
-        attr="Esri, HERE, Garmin, Maxar",
+        tiles=tiles if online else None,
+        attr="Esri, HERE, Garmin, Maxar" if online else None,
         zoom_control=True,
         control_scale=True,
         max_zoom=16,
     )
+    m.default_js, m.default_css = LOCAL_JS, LOCAL_CSS
     # O folium usa uma caixa com proporção fixa; forçar o mapa a preencher o quadro.
     m.get_root().header.add_child(folium.Element(FILL_MAP_CSS))
+    if not online:  # base offline: fronteiras das províncias (domínio público)
+        folium.GeoJson(
+            data.provinces(),
+            style_function=lambda _f: {"color": "#B9B2A0", "weight": 1, "fillOpacity": 0},
+            tooltip=folium.GeoJsonTooltip(fields=["shapeName"], aliases=["Província"]),
+        ).add_to(m)
     return m
 
 
@@ -176,7 +197,12 @@ def results_view() -> None:
         )
         show_zones = st.checkbox("Contornos das zonas", value=True)
         opacity = st.slider("Opacidade", 0.2, 1.0, 0.75, 0.05)
-        basemap = st.radio("Base", ["Mapa claro", "Satélite"], horizontal=True)
+        underlay = st.checkbox(
+            "Imagem de satélite por baixo",
+            value=True,
+            disabled=not data.has_layer(folder, "layer_rgb"),
+        )
+        basemap = st.radio("Base do mapa", base_options())
         label("Exportar")
         st.download_button(
             "Relatório (PDF)",
@@ -204,8 +230,11 @@ def results_view() -> None:
         fmt_coord(lat, lon),
     )
 
-    m = new_map(lat, lon, 13, basemap == "Satélite")
+    m = new_map(lat, lon, 13, basemap)
     title, kind, pattern = LAYERS[layer_key]
+    if underlay and kind != "rgb" and data.has_layer(folder, "layer_rgb"):
+        base_uri, base_bounds = data.raster_overlay(folder, "layer_rgb", "rgb", 1.0)
+        folium.raster_layers.ImageOverlay(base_uri, bounds=base_bounds, name="Satélite").add_to(m)
     uri, bounds = data.raster_overlay(folder, pattern.format(t=target), kind, opacity)
     folium.raster_layers.ImageOverlay(uri, bounds=bounds, opacity=1.0, name=title).add_to(m)
     for ring in outlines(geometry):
@@ -326,15 +355,15 @@ def new_analysis_view() -> None:
         ]
         label("Ou carregue o terreno")
         upload = st.file_uploader("GeoJSON", type=["geojson", "json"], label_visibility="collapsed")
-        basemap = st.radio("Base", ["Satélite", "Mapa claro"], horizontal=True)
+        basemap = st.radio("Base do mapa", base_options())
     sidebar_footer()
 
     lat, lon, zoom = PLACES[place]
     top_bar("Nova análise", "Desenhe o terreno no mapa", fmt_coord(lat, lon))
 
     uploaded = geometry_from_upload(upload)
-    m = new_map(lat, lon, zoom, basemap == "Satélite")
-    Draw(
+    m = new_map(lat, lon, zoom, basemap)
+    draw = Draw(
         export=False,
         position="topleft",
         draw_options={
@@ -346,7 +375,10 @@ def new_analysis_view() -> None:
             "rectangle": {"shapeOptions": {"color": theme.OXIDE}},
         },
         edit_options={"edit": True, "remove": True},
-    ).add_to(m)
+    )
+    draw.default_js = [("leaflet_draw_js", f"{STATIC}/leaflet.draw.js")]
+    draw.default_css = [("leaflet_draw_css", f"{STATIC}/leaflet.draw.css")]
+    draw.add_to(m)
     if uploaded:
         for ring in outlines(uploaded):
             folium.Polygon(ring, color=theme.OXIDE, weight=2, fill_opacity=0.1).add_to(m)
@@ -372,11 +404,13 @@ def new_analysis_view() -> None:
             status_line("error", error)
 
     with st.sidebar:
-        st.markdown(
-            '<div class="tv-hint">A análise descarrega imagens de satélite e demora cerca de '
-            "1 a 3 minutos. Precisa de internet.</div>",
-            unsafe_allow_html=True,
+        hint = (
+            "A análise descarrega imagens de satélite e demora cerca de 1 a 3 minutos."
+            if data.is_online()
+            else "Sem internet: não é possível descarregar imagens de satélite, por isso só "
+            "terrenos já analisados antes funcionam. Os exemplos continuam em «Resultados»."
         )
+        st.markdown(f'<div class="tv-hint">{hint}</div>', unsafe_allow_html=True)
         go = st.button(
             "Analisar terreno", type="primary", disabled=not (valid and chosen), key="go"
         )

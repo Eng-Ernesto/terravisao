@@ -14,7 +14,7 @@ from ..models import Unavailable
 from . import _rio
 
 STAC_URL = "https://earth-search.aws.element84.com/v1"
-BANDS = ["blue", "red", "nir", "nir08", "swir16", "swir22"]
+BANDS = ["blue", "green", "red", "nir", "nir08", "swir16", "swir22"]
 # SCL válido: 4 vegetação, 5 solo nu, 6 água, 7 não classificado (baixa prob.)
 SCL_VALID = (4, 5, 6, 7)
 

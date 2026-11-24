@@ -63,6 +63,22 @@ def _polygonize(
     return {"type": "FeatureCollection", "features": feats}
 
 
+def _true_colour(result: AnalysisResult) -> np.ndarray | None:
+    """Imagem de cor natural (3 bandas uint8) com esticamento comum; base de satélite offline."""
+    t = result.thematic
+    if not all(k in t for k in ("true_red", "true_green", "true_blue")):
+        return None
+    bands = np.stack([t["true_red"], t["true_green"], t["true_blue"]]).astype("float32")
+    ok = np.isfinite(bands).all(axis=0)
+    if not ok.any():
+        return None
+    lo, hi = np.percentile(bands[:, ok], [2, 98])
+    scaled = np.clip((bands - lo) / max(hi - lo, 1e-6), 0, 1) ** 0.8
+    out = np.where(np.isfinite(scaled), scaled * 255, 0).astype("uint8")
+    out[:, ~ok] = 0
+    return out
+
+
 def export_all(result: AnalysisResult, out_dir: Path) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
@@ -88,8 +104,29 @@ def export_all(result: AnalysisResult, out_dir: Path) -> list[Path]:
         p.write_text(json.dumps(zones, ensure_ascii=False), encoding="utf-8")
         written.append(p)
     for name, arr in result.thematic.items():
+        if name.startswith("true_"):
+            continue  # vão juntas em layer_rgb.tif
         p = out_dir / f"layer_{name}.tif"
         _write_tif(p, arr.astype(np.float32), result, np.nan)
+        written.append(p)
+    rgb = _true_colour(result)
+    if rgb is not None:
+        p = out_dir / "layer_rgb.tif"
+        g = result.grid
+        with rasterio.open(
+            p,
+            "w",
+            driver="GTiff",
+            height=rgb.shape[1],
+            width=rgb.shape[2],
+            count=3,
+            dtype="uint8",
+            crs=g.crs,
+            transform=g.transform,
+            compress="deflate",
+            photometric="RGB",
+        ) as dst:
+            dst.write(rgb)
         written.append(p)
     p = out_dir / "run.json"
     meta = {

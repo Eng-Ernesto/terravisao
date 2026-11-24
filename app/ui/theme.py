@@ -15,7 +15,14 @@ LEVEL_LABEL = {"baixa": "Baixa", "media": "Média", "alta": "Alta"}
 TARGET_LABEL = {"ferro": "Ferro", "cobre": "Cobre", "ouro": "Ouro", "agua": "Água subterrânea"}
 
 CSS = f"""
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* Fontes empacotadas em app/static/fonts: a app funciona sem internet. */
+@font-face {{ font-family:'Fraunces'; font-weight:500; font-style:normal; font-display:swap; src:url('app/static/fonts/fraunces-500.woff2') format('woff2'); }}
+@font-face {{ font-family:'Fraunces'; font-weight:600; font-style:normal; font-display:swap; src:url('app/static/fonts/fraunces-600.woff2') format('woff2'); }}
+@font-face {{ font-family:'Inter'; font-weight:400; font-style:normal; font-display:swap; src:url('app/static/fonts/inter-400.woff2') format('woff2'); }}
+@font-face {{ font-family:'Inter'; font-weight:500; font-style:normal; font-display:swap; src:url('app/static/fonts/inter-500.woff2') format('woff2'); }}
+@font-face {{ font-family:'Inter'; font-weight:600; font-style:normal; font-display:swap; src:url('app/static/fonts/inter-600.woff2') format('woff2'); }}
+@font-face {{ font-family:'IBM Plex Mono'; font-weight:400; font-style:normal; font-display:swap; src:url('app/static/fonts/plexmono-400.woff2') format('woff2'); }}
+@font-face {{ font-family:'IBM Plex Mono'; font-weight:500; font-style:normal; font-display:swap; src:url('app/static/fonts/plexmono-500.woff2') format('woff2'); }}
 
 :root {{
   --paper:{PAPER}; --paper-dark:{PAPER_DARK}; --ink:{INK}; --ink-soft:{INK_SOFT};
