@@ -35,6 +35,11 @@ def _boundary() -> BaseGeometry | None:
     return shapely.union_all(geoms).buffer(BOUNDARY_TOLERANCE_DEG)
 
 
+def angola_boundary() -> BaseGeometry | None:
+    """Fronteira de Angola (com tolerância) ou None se o ficheiro não existir."""
+    return _boundary()
+
+
 class AoiError(ValueError):
     """Terreno inválido; a mensagem é mostrável ao utilizador."""
 

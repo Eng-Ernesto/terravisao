@@ -1,0 +1,162 @@
+{
+  "provenance": {
+    "pipeline_version": "0.1.0",
+    "created_at": "2026-11-24T10:18:54.728221+00:00",
+    "scenes": {
+      "sentinel2": [
+        "S2B_33LWF_20260829_0_L2A",
+        "S2A_33LWF_20260826_1_L2A",
+        "S2C_33LWF_20260824_0_L2A",
+        "S2A_33LWF_20260816_1_L2A",
+        "S2B_33LWF_20260809_0_L2A",
+        "S2A_33LWF_20260806_1_L2A"
+      ]
+    },
+    "config_snapshot": {
+      "max_area_km2": 2500.0,
+      "grid_resolution_m": 20,
+      "season_months": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "ndvi_mask": 0.4,
+      "percentiles": [
+        2.0,
+        98.0
+      ],
+      "threshold_medium": 0.4,
+      "threshold_high": 0.65,
+      "score_smoothing_m": 100.0,
+      "min_zone_area_km2": 0.05,
+      "final_high_zone_km2": 0.5
+    },
+    "layer_quality": {
+      "sentinel2": 0.999832283251361,
+      "dem": 1.0
+    }
+  },
+  "summary": {
+    "warnings": [
+      "Geologia indisponível (ferro): Sem ficheiro de geologia em data/reference/geologia/."
+    ],
+    "targets": {
+      "ferro": {
+        "classe_final": "alta",
+        "confianca": "media",
+        "area_por_classe_km2": {
+          "baixa": 48.896,
+          "media": 89.188,
+          "alta": 7.082
+        },
+        "zonas": [
+          {
+            "id": "A",
+            "area_km2": 1.909,
+            "score_medio": 0.717
+          },
+          {
+            "id": "B",
+            "area_km2": 1.441,
+            "score_medio": 0.715
+          },
+          {
+            "id": "C",
+            "area_km2": 0.95,
+            "score_medio": 0.712
+          },
+          {
+            "id": "D",
+            "area_km2": 0.659,
+            "score_medio": 0.683
+          },
+          {
+            "id": "E",
+            "area_km2": 0.571,
+            "score_medio": 0.676
+          },
+          {
+            "id": "F",
+            "area_km2": 0.348,
+            "score_medio": 0.668
+          },
+          {
+            "id": "G",
+            "area_km2": 0.206,
+            "score_medio": 0.669
+          },
+          {
+            "id": "H",
+            "area_km2": 0.148,
+            "score_medio": 0.684
+          },
+          {
+            "id": "I",
+            "area_km2": 0.106,
+            "score_medio": 0.67
+          },
+          {
+            "id": "J",
+            "area_km2": 0.085,
+            "score_medio": 0.673
+          },
+          {
+            "id": "K",
+            "area_km2": 0.079,
+            "score_medio": 0.661
+          },
+          {
+            "id": "L",
+            "area_km2": 0.06,
+            "score_medio": 0.668
+          },
+          {
+            "id": "M",
+            "area_km2": 0.055,
+            "score_medio": 0.661
+          },
+          {
+            "id": "N",
+            "area_km2": 0.052,
+            "score_medio": 0.667
+          }
+        ]
+      }
+    }
+  },
+  "request": {
+    "targets": [
+      "ferro"
+    ],
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            15.2,
+            -12.955
+          ],
+          [
+            15.31,
+            -12.955
+          ],
+          [
+            15.31,
+            -12.845
+          ],
+          [
+            15.2,
+            -12.845
+          ],
+          [
+            15.2,
+            -12.955
+          ]
+        ]
+      ]
+    },
+    "name": "longonjo_estudo"
+  }
+}

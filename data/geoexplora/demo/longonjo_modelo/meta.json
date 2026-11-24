@@ -1,0 +1,9 @@
+{
+  "title": "Longonjo: modelo sintético coerente (fictício)",
+  "fictitious": true,
+  "epsg": 32733,
+  "note": "Dados GERADOS por nós (scripts/make_demo_data.py, semente 42): corpo carbonatítico fictício onde as terras raras coincidem com um alto magnético e com tório. Serve só para demonstrar o motor quando há relação nos dados.",
+  "grids": {
+    "Magnética (nT)": "magnetica_nT.tif"
+  }
+}

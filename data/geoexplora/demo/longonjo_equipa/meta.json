@@ -1,0 +1,7 @@
+{
+  "title": "Longonjo: dados da equipa (fictícios)",
+  "fictitious": true,
+  "epsg": 32733,
+  "note": "500 amostras fictícias fornecidas pela equipa. Coordenadas deslocadas (+22 536 m em X, −631 169 m em Y) para Longonjo, como na versão «ajustados». Os valores são aleatórios, sem relação espacial nem com a anomalia magnética.",
+  "grids": {}
+}

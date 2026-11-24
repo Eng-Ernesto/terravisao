@@ -1,4 +1,8 @@
-# TerraVisão — Plataforma de Prospecção Inteligente
+# GeoExplora IA
+
+> Plataforma de apoio à exploração de terras raras e minerais críticos em Angola. **TerraVisão** é o seu módulo de detecção remota. Ver [docs/14-geoexplora-ia.md](docs/14-geoexplora-ia.md).
+
+## TerraVisão — módulo de prospecção por satélite
 
 Ferramenta de **triagem** que analisa um terreno em Angola com dados públicos de satélite e indica a probabilidade (Alta / Média / Baixa) de ferro, cobre, ouro e água subterrânea, para orientar onde vale a pena ir ao campo.
 
@@ -22,6 +26,7 @@ Comece por [docs/README.md](docs/README.md), que tem o índice e a ordem de leit
 | [10 Decisões e questões abertas](docs/10-decisoes-questoes-abertas.md) | ADRs e perguntas a resolver |
 | [11 Glossário](docs/11-glossario.md) | Termos técnicos e geológicos |
 | [12 Design e interface](docs/12-design-ui.md) | Direcção visual, paleta, tipografia, layout |
+| [14 GeoExplora IA: visão e âmbito](docs/14-geoexplora-ia.md) | Produto, módulos, registo do que entra e do que fica de fora e porquê |
 | [13 Guia Docker](docs/13-guia-docker.md) | Como executar noutro computador, teste offline e validação |
 | [Anexo: protótipo GeoExplora IA](docs/anexos/prototipo-geoexplora-ia.md) | Resumo do PDF anterior (Longonjo) |
 

@@ -1,0 +1,76 @@
+# 14 — GeoExplora IA: visão, módulos e âmbito
+
+> Documento vivo. Regista o que a equipa do projecto pediu, o que entra na versão de demonstração e **porque é que cada ideia entrou ou ficou de fora**.
+
+## 1. Produto
+
+**GeoExplora IA** é a plataforma. Ajuda o geofísico a interpretar dados de exploração de **terras raras e minerais críticos para a transição energética limpa em Angola**.
+
+Duas formas de usar, na mesma interface:
+
+| Módulo | O que faz | Quem fornece os dados |
+|---|---|---|
+| **Análise de mapa** (principal) | O geofísico carrega os seus dados (amostras geoquímicas, mapas e grelhas geofísicas). A plataforma analisa, classifica anomalias, delimita zonas de interesse, relaciona geoquímica com geofísica e explica o resultado num **assistente de chat** e num relatório. | O geofísico (CSV, GeoTIFF, GeoJSON, Shapefile) |
+| **TerraVisão** (módulo de detecção remota) | O utilizador desenha o terreno e a plataforma obtém imagens de satélite e relevo públicos, calcula índices e zonas de triagem. Pode servir de contexto (imagem de satélite, relevo) à análise de mapa. | Dados públicos (Sentinel-2, Copernicus DEM) |
+
+Nome: o produto chama-se **GeoExplora IA** (é o nome da equipa). **TerraVisão** é o nome do módulo.
+
+## 2. Alvo
+
+**Minerais críticos para a transição energética e industrial de Angola.** É o tema da 3.ª Semana Académica de Geociências (SAGEO, 25 a 27 de Novembro): «Do petróleo aos minerais críticos: o papel dos georecursos na transição energética e industrial de Angola».
+
+O caso de demonstração são as **terras raras de Longonjo (Huambo)**, um carbonatito, com ênfase nos elementos para ímanes permanentes (Nd, Pr) usados em turbinas eólicas e motores eléctricos. O motor aceita também outros elementos críticos (por exemplo cobre ou lítio): se os dados não tiverem terras raras, analisa o elemento escolhido. No módulo TerraVisão, o cobre (electrificação) e o ferro entram como minerais de interesse.
+
+## 3. Dados da demonstração
+
+Fictícios, fornecidos pela equipa (500 amostras com Ce, La, Nd, Pr em ppm e uma anomalia magnética de teste). Dois conjuntos:
+
+1. **Dados da equipa (Longonjo):** exactamente os ficheiros recebidos. As coordenadas originais caem a cerca de 7,2° S, fora de Longonjo; o deslocamento rígido (+22 536 m em X, −631 169 m em Y) usado pela própria equipa é aplicado e indicado. Os valores são aleatórios sem relação espacial, por isso o resultado correcto é «não há relação detectável».
+2. **Modelo sintético coerente (Longonjo):** gerado por nós, com um corpo carbonatítico fictício onde o enriquecimento em terras raras coincide com um alto magnético. Serve para mostrar o que a plataforma faz quando há relação nos dados. **Está sempre rotulado como fictício.**
+
+## 4. Registo de âmbito: o que entra e o que fica de fora
+
+Legenda: ✅ entra hoje · 🟡 parcial · ⏳ fase seguinte · ❌ fora do âmbito actual
+
+| # | Ideia da equipa | Estado | Justificação |
+|---|---|---|---|
+| 1a | Carregar mapas e dados próprios (CSV, GeoTIFF, GeoJSON, Shapefile) | ✅ | Núcleo da proposta; ferramentas maduras (rasterio, geopandas) |
+| 1b | Grelhas magnéticas e derivadas (1.ª derivada vertical, sinal analítico, gradiente horizontal) | ✅ | Cálculo por FFT sobre a grelha carregada; testável com anomalia sintética |
+| 1c | RTP (redução ao pólo) | ⏳ | Precisa de inclinação e declinação do campo e de validação pelo geofísico; um RTP mal feito engana |
+| 1d | Gravimetria | 🟡 | Entra como grelha genérica (visualização, derivadas, amostragem nos pontos); sem processamento próprio (Bouguer, etc.) |
+| 1e | Descarregar dados geofísicos públicos automaticamente | ❌ | Os modelos globais têm resolução de vários km e os levantamentos de Angola dependem de acesso a confirmar |
+| 2 | Geologia de maior resolução | 🟡 | Carregamento e visualização de camadas geológicas entra; a escala de dados oficiais (que não temos) é o limite |
+| 3a | IA: classificação de anomalias e zonas favoráveis | ✅ | Regras estatísticas (quantis, robustas) e agrupamento espacial: leves e explicáveis |
+| 3b | IA: modelo supervisionado com explicação | ✅ (com ressalva) | Random Forest com validação espacial e importância das variáveis. Diz honestamente quando **não supera o acaso** (é o caso dos dados da equipa) |
+| 3c | IA: assistente de chat que analisa o mapa | ✅ | Cloudflare Workers AI com o token do utilizador; modo offline de reserva. Lê só os resultados calculados |
+| 3d | Reconhecimento de padrões por redes neuronais | ❌ | Exige dados reais rotulados e hardware que os computadores disponíveis não têm |
+| 4 | Importação a partir do QGIS | ✅ | Coberto por 1a |
+| 5 | Sobreposição de camadas (visibilidade, transparência, simbologia) | ✅ | Controlo de camadas e opacidade; a simbologia fica limitada ao que o Streamlit permite |
+| 6 | Validação científica | ⏳ | Depende de dados reais e do geofísico; a plataforma mostra métricas e limites, mas a validação é trabalho de campo |
+| 7 | Relatórios técnicos | ✅ | PDF com mapas, dados, metodologia, parâmetros, resultados, limitações e (se disponível) interpretação da IA |
+| 8 | Terras raras: TREO, razão NdPr/TREO | ✅ | Cálculo directo e relevante para o tema (ímanes permanentes) |
+| 9 | TerraVisão como módulo | ✅ | Reaproveita o trabalho já feito |
+| 10 | Vista 3D | ⏳ | Fora do tempo de hoje; não bloqueia a demonstração |
+| 11 | Testes em várias regiões de Angola | ⏳ | Precisa de dados reais |
+| 12 | Contas de utilizador e partilha | ❌ | Não é necessário para a demonstração presencial |
+
+## 5. Como a IA se divide (o que é leve e o que não é)
+
+| Componente | Onde corre | Peso | Precisa de internet |
+|---|---|---|---|
+| Classificação, agrupamento de zonas, interpolação, derivadas | Local (numpy/scipy/scikit-learn) | Leve (segundos) | Não |
+| Random Forest, importâncias, validação cruzada espacial | Local (scikit-learn) | Leve (500 amostras: poucos segundos) | Não |
+| Assistente de chat com linguagem livre | Cloudflare Workers AI (conta do utilizador) | Nada na máquina local | Sim, e token |
+| Assistente offline (respostas padrão e interpretação automática) | Local | Nenhum | Não |
+
+Regra: **o assistente nunca calcula nem inventa**. Lê um resumo estruturado dos resultados. Sem internet ou token, a plataforma funciona na mesma e o chat responde com o modo offline.
+
+## 6. Arquitectura
+
+```
+GeoExplora IA  (interface Streamlit, módulos)
+├── Análise de mapa      ──► pacote geoexplora  (dados, terras raras, análise, geofísica, IA, relatório)
+└── TerraVisão (satélite) ──► pacote terravisao  (satélite, terreno, pontuação, zonas, relatório)
+```
+
+Os dois pacotes partilham a fronteira de Angola, a grelha UTM e o estilo de relatório. A análise de mapa pode usar como contexto os resultados do TerraVisão (imagem de satélite e relevo da mesma área).

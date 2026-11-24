@@ -10,7 +10,7 @@ WORKDIR /srv
 # Camada de dependências primeiro, para aproveitar a cache do Docker.
 COPY pyproject.toml README.md ./
 COPY src ./src
-RUN pip install ".[geo,app,report]"
+RUN pip install ".[geo,analysis,app,report]"
 
 # Tema e activos locais (fontes, Leaflet): a app funciona sem internet.
 COPY .streamlit ./.streamlit
@@ -20,6 +20,8 @@ COPY data/reference ./data/reference
 COPY data/samples ./data/samples
 # Resultados de demonstração pré-calculados (Longonjo, Lubango).
 COPY data/demo ./data/demo
+# Conjuntos de demonstração do GeoExplora IA (fictícios).
+COPY data/geoexplora ./data/geoexplora
 
 EXPOSE 8501
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s \

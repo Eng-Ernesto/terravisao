@@ -32,6 +32,11 @@ app = [
     "streamlit-folium>=0.20",
     "pydeck>=0.9",
 ]
+analysis = [
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "scipy>=1.11",
+]
 report = [
     "matplotlib>=3.8",
     "reportlab>=4.0",
@@ -49,7 +54,7 @@ dev = [
 terravisao = "terravisao.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/terravisao"]
+packages = ["src/terravisao", "src/geoexplora"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -77,11 +82,12 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*", "reportlab.*"]
+module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*", "reportlab.*", "pandas.*", "sklearn.*"]
 ignore_missing_imports = true
 
 # Bibliotecas científicas sem tipos: não exigir tipagem nas chamadas a elas.
 [[tool.mypy.overrides]]
-module = ["terravisao.*"]
+module = ["terravisao.*", "geoexplora.*"]
 disallow_untyped_calls = false
 warn_return_any = false
+disallow_any_generics = false
