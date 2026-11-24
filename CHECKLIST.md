@@ -46,17 +46,17 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] T-203 Barra de progresso por etapa (falta: cancelamento)
 - [x] T-204 Camadas e probabilidade no mapa (sobre dados de demonstração)
 - [x] T-205 Resumo, tabela de zonas e contribuições (sem cartões)
-- [ ] T-206 Recomendações por zona
+- [x] T-206 Recomendações por zona (método de campo sugerido na tabela e no PDF do TerraVisão)
 - [x] T-207 Relatório PDF (8 páginas, ~750 KB: resumo, mapas, zonas, camadas de apoio, metodologia, limitações, proveniência)
 - [x] T-208 Exportação GeoTIFF/GeoJSON/JSON (zip na app)
-- [ ] T-209 Mensagens de erro e estados
-- [ ] T-210 Vista 3D opcional (RF-24)
-- [ ] T-211 Assistente: ferramentas sobre o resultado
-- [ ] T-212 Assistente: filtros estruturados
-- [ ] T-213 Assistente: fornecedor Cloudflare Workers AI (token do utilizador) e tratamento de indisponibilidade
-- [ ] T-214 Assistente: painel de chat e consentimento
-- [ ] T-215 Assistente: texto do relatório
-- [ ] T-216 Assistente: testes de avaliação
+- [ ] T-209 Mensagens de erro e estados (parcial: erros de dados legíveis na análise de mapa e validação do terreno no TerraVisão)
+- [ ] T-210 Vista 3D opcional (RF-24) — adiada, fora do âmbito de 24/11 (doc 14)
+- [x] T-211 Assistente: lê só o resumo estruturado da análise (`Analysis.summary()`), sem aceder a ficheiros
+- [ ] T-212 Assistente: filtros de zonas em linguagem natural (RF-26) — não implementado; fica para a fase seguinte
+- [x] T-213 Assistente: fornecedor Cloudflare Workers AI, recurso a outros modelos e tratamento de indisponibilidade (testado com o serviço real)
+- [x] T-214 Assistente: painel de chat; aviso de envio à Cloudflare na caixa de configuração (sem confirmação explícita ainda)
+- [ ] T-215 Assistente: texto do relatório (o PDF tem interpretação automática; o texto da IA ainda não entra no PDF)
+- [ ] T-216 Assistente: testes de avaliação (existem testes com respostas simuladas e `scripts/e2e_workers_ai.py` manual; falta automatizar)
 - [x] Fluxo desenho → resultado → PDF funciona (marco M2): testado em Longonjo, 46,8 km² em cerca de 1 min
 
 ## Fase 3 — Validação e piloto
@@ -74,9 +74,9 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] CI de testes e lint no GitHub
 - [ ] Termos de uso e aviso legal (Q-10)
 - [x] Fornecedor do assistente decidido: Cloudflare Workers AI com token do utilizador (ADR-15)
-- [ ] Escolher modelo do Workers AI em português (Q-16)
-- [ ] Decidir se anomalias entram no MVP (Q-15)
-- [ ] Verificar que a app inteira funciona com o assistente desligado (RF-30)
+- [x] Modelo do Workers AI escolhido por teste real (Q-16, ADR-22)
+- [x] Anomalias: classificação por quantis/desvios e zonas entram; detecção não supervisionada (Isolation Forest) fica de fora (Q-15)
+- [x] A app funciona com o assistente desligado (modo offline por defeito; testes de render)
 - [x] Distribuição por Docker local decidida (ADR-12)
 - [ ] Dockerfile e docker compose testados (build e arranque) — a testar no outro computador seguindo docs/13-guia-docker.md
 - [x] Dados de demonstração pré-calculados (Longonjo e Lubango/Huíla, com imagem de satélite)

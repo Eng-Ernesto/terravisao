@@ -145,3 +145,15 @@ def test_summary_is_json_serialisable():
     folder = demo.list_datasets()["Longonjo: modelo sintético coerente (fictício)"]
     pts, grids, _ = demo.load(folder)
     json.dumps(analysis.run(pts, grids=grids).summary())
+
+
+def test_excel_semicolon_and_decimal_comma():
+    # Excel em português: separador «;» e vírgula decimal
+    rows = ["Amostra;X;Y;Ce_ppm;La_ppm"]
+    for i in range(20):
+        rows.append(f"S{i:02d};{525000 + i * 37},5;{8572000 + i * 41},25;{100 + i},5;{50 + i},2")
+    pts = read_points(csv("\n".join(rows)), "excel.csv", epsg=32733)
+    assert len(pts.df) == 20
+    assert pts.df["Ce_ppm"].iloc[0] == pytest.approx(100.5)
+    assert pts.df["id"].iloc[0] == "S00"  # identificadores não são convertidos
+    assert pts.df["lat"].between(-13.0, -12.8).all()

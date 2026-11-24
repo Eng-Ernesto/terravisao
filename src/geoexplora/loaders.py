@@ -83,6 +83,24 @@ def _decode(raw: bytes) -> str:
     raise LoadError("Não foi possível ler o ficheiro como texto.")
 
 
+def _fix_decimal_commas(table: pd.DataFrame) -> pd.DataFrame:
+    """Colunas em texto como «527,5» (Excel em português) passam a números.
+
+    Só converte uma coluna se pelo menos 80 % dos valores forem numéricos depois da troca,
+    para não estragar colunas de identificadores.
+    """
+    table = table.copy()
+    for c in table.columns:
+        if not pd.api.types.is_numeric_dtype(table[c]):  # texto (object ou StringDtype)
+            fixed = pd.to_numeric(
+                table[c].astype(str).str.strip().str.replace(",", ".", regex=False),
+                errors="coerce",
+            )
+            if fixed.notna().mean() >= 0.8:
+                table[c] = fixed
+    return table
+
+
 def _build(
     table: pd.DataFrame,
     x_col: str | None,
@@ -90,6 +108,7 @@ def _build(
     epsg: int | None,
     source: str,
 ) -> Points:
+    table = _fix_decimal_commas(table)
     cols = list(table.columns)
     x_col = x_col or _pick(cols, X_NAMES)
     y_col = y_col or _pick(cols, Y_NAMES)
@@ -177,7 +196,11 @@ def read_points(
             return _build(_geojson_table(json.loads(_decode(data))), "lon", "lat", None, filename)
         if name.endswith(".zip"):
             return _build(_shapefile_table(data), "lon", "lat", None, filename)
-        table = pd.read_csv(io.StringIO(_decode(data)), sep=None, engine="python")
+        text = _decode(data)
+        # O separador decide-se pelo cabeçalho: os valores podem ter vírgulas decimais.
+        header = text.lstrip("﻿").splitlines()[0] if text.strip() else ""
+        sep = ";" if ";" in header and "," not in header else "\t" if "\t" in header else None
+        table = pd.read_csv(io.StringIO(text), sep=sep, engine="python")
     except LoadError:
         raise
     except Exception as exc:
