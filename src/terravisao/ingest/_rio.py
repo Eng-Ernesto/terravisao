@@ -14,6 +14,13 @@ GDAL_OPTIONS = {
     "GDAL_HTTP_MERGE_CONSECUTIVE_RANGES": "YES",
     "VSI_CACHE": "TRUE",
     "GDAL_INGESTED_BYTES_AT_OPEN": "32768",
+    # Sem limite, uma ligação que pára deixa a análise pendurada para sempre (visto em 24/11:
+    # leitura parada em `reproject` dentro do servidor). Com estes valores, o pedido falha ao
+    # fim de 30 s e é repetido até 3 vezes.
+    "GDAL_HTTP_CONNECTTIMEOUT": "15",
+    "GDAL_HTTP_TIMEOUT": "30",
+    "GDAL_HTTP_MAX_RETRY": "3",
+    "GDAL_HTTP_RETRY_DELAY": "2",
 }
 
 

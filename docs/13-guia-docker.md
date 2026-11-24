@@ -44,13 +44,13 @@ Construir e arrancar (**precisa de internet; demora 5 a 15 minutos na primeira v
 docker compose up --build
 ```
 
-Está pronto quando aparecer uma linha como `You can now view your Streamlit app in your browser`.
+Está pronto quando aparecer uma linha como `Uvicorn running on http://0.0.0.0:8501`. A construção inclui uma fase com Node para compilar a interface.
 
 ## 4. Abrir a aplicação
 
 No navegador: **http://localhost:8501**
 
-Deve ver o **GeoExplora IA** com o módulo **Análise de mapa**: amostras de Longonjo sobre imagem de satélite, classes de anomalia, a tabela de zonas e o painel do **Assistente** à direita. No menu à esquerda, escolha o conjunto «modelo sintético coerente» e experimente o módulo **TerraVisão (satélite)** (resultados de Longonjo e Lubango).
+Deve ver a **abertura animada** do GeoExplora IA. «Iniciar» leva à escolha entre **Análise de mapa** e **TerraVisão**. Na primeira entrada em cada sistema aparece um guia de 3 passos (com «Saltar»).
 
 ## 5. Testar offline (importante para a apresentação)
 
@@ -83,9 +83,10 @@ O roteiro completo está em [15-roteiro-demonstracao.md](15-roteiro-demonstracao
 ## 7. Lista de validação (preencher e enviar)
 
 - [ ] `docker compose up --build` terminou sem erros. Tempo: ____ min
-- [ ] http://localhost:8501 abre e mostra «Análise de mapa» (dados da equipa)
-- [ ] «Modelo sintético coerente» mostra uma zona A e o modelo «supera o acaso»
-- [ ] Os botões do Assistente respondem (offline) e a resposta aparece no topo do painel
+- [ ] http://localhost:8501 abre a abertura animada; «Iniciar» mostra os dois sistemas
+- [ ] Análise de mapa: o exemplo «modelo sintético coerente» mostra os cartões, a zona A e «Supera o acaso»
+- [ ] As sugestões do chat respondem (modo offline)
+- [ ] Mapa: a grelha magnética e o sinal analítico aparecem; o alto magnético coincide com a zona A
 - [ ] «Relatório técnico (PDF)» descarrega e abre
 - [ ] Módulo TerraVisão: Longonjo e Lubango abrem
 - [ ] Mapa com imagem de satélite (sem internet)
@@ -118,17 +119,17 @@ No computador com internet:
 
 ```powershell
 docker compose build
-docker save terravisao:dev -o terravisao.tar
+docker save geoexplora:dev -o geoexplora.tar
 ```
 
-No computador da apresentação (copie `terravisao.tar` e o ficheiro `docker-compose.yml`):
+No computador da apresentação (copie `geoexplora.tar` e o ficheiro `docker-compose.yml`):
 
 ```powershell
-docker load -i terravisao.tar
+docker load -i geoexplora.tar
 docker compose up
 ```
 
-O `docker-compose.yml` usa a imagem `terravisao:dev`; sem a pasta do projecto, edite-o e retire a linha `build: .`.
+O `docker-compose.yml` usa a imagem `geoexplora:dev`; sem a pasta do projecto, edite-o e retire a linha `build: .`.
 
 ## 10. Problemas comuns
 

@@ -26,6 +26,7 @@ Comece por [docs/README.md](docs/README.md), que tem o índice e a ordem de leit
 | [10 Decisões e questões abertas](docs/10-decisoes-questoes-abertas.md) | ADRs e perguntas a resolver |
 | [11 Glossário](docs/11-glossario.md) | Termos técnicos e geológicos |
 | [12 Design e interface](docs/12-design-ui.md) | Direcção visual, paleta, tipografia, layout |
+| [16 Interface React](docs/16-interface-react.md) | Fluxo, dois sistemas, design system azul, API |
 | [15 Roteiro de demonstração](docs/15-roteiro-demonstracao.md) | Sequência e respostas para a apresentação da SAGEO |
 | [14 GeoExplora IA: visão e âmbito](docs/14-geoexplora-ia.md) | Produto, módulos, registo do que entra e do que fica de fora e porquê |
 | [13 Guia Docker](docs/13-guia-docker.md) | Como executar noutro computador, teste offline e validação |
@@ -43,12 +44,17 @@ terravisao check-aoi caminho\para\terreno.geojson
 
 ## Ver a interface
 
+A interface é React + shadcn/ui (pasta `frontend/`), servida pela API FastAPI (docs/16).
+
 ```powershell
-pip install -e ".[geo,app]"
-streamlit run app/streamlit_app.py
+pip install -e ".[geo,analysis,report,web]"
+cd frontend; npm ci; npm run build; cd ..
+python -m geoexplora.web --port 8501
 ```
 
-Abre com os dados de demonstração de `data/demo/` (Longonjo). Em «Nova análise» desenha-se um terreno, corre-se a análise e exporta-se o relatório PDF.
+Abra http://localhost:8501. Em desenvolvimento: `python -m geoexplora.web --port 8000` e, noutra janela, `npm run dev` em `frontend/` (o Vite encaminha `/api` para a porta 8000).
+
+Plano B (interface antiga em Streamlit): `pip install -e ".[geo,analysis,app,report]"` e `streamlit run app/streamlit_app.py`.
 
 Pela linha de comandos:
 

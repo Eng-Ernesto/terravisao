@@ -38,3 +38,11 @@ def test_cache_roundtrip(tmp_path, monkeypatch):
     assert list(arrays["z"]) == [0, 1, 2, 3] and meta["k"] == "v"
     assert cache.make_key("x", a=1) == key and cache.make_key("x", a=2) != key
     assert cache.clear() == 2
+
+
+def test_remote_reads_have_timeouts_and_retries():
+    # Sem timeout, uma ligação parada pendura a análise para sempre (visto em 24/11).
+    from terravisao.ingest._rio import GDAL_OPTIONS
+
+    assert int(GDAL_OPTIONS["GDAL_HTTP_TIMEOUT"]) <= 60
+    assert int(GDAL_OPTIONS["GDAL_HTTP_MAX_RETRY"]) >= 1

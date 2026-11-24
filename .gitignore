@@ -12,3 +12,5 @@ dist/
 output/
 informacao/
 .cloudflare/
+frontend/node_modules/
+frontend/dist/

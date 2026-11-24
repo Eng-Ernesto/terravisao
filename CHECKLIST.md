@@ -103,3 +103,15 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] RTP (redução ao pólo), validado pelo geofísico
 - [ ] Dados reais (geofísica, geoquímica, geologia) e validação científica
 - [ ] Teste do Docker no outro computador
+
+## Interface React + shadcn/ui (24 de Novembro)
+
+- [x] Fluxo e design system definidos (doc 16): abertura animada, escolha de sistema, dois sistemas com menu próprio, tema claro e azul
+- [x] API FastAPI sobre os pacotes existentes (análise, chat, relatórios, TerraVisão, tarefas em segundo plano), com testes
+- [x] Frontend React + shadcn/ui (Base UI), fontes e mapa locais
+- [x] Guia de 3 passos na primeira entrada em cada sistema, com «Saltar»; não volta depois de fechado; revisto pelo menu
+- [x] Verificado no navegador: abertura, escolha, conversa com cartões, mapa com grelha magnética, resultados e desenho do TerraVisão
+- [x] Análise nova do TerraVisão pela interface/servidor (107 s); corrigido bloqueio de leitura remota sem limite de tempo
+- [x] Docker em duas fases (Node + Python)
+- [ ] Docker testado no outro computador (continua por testar)
+- [ ] Modo escuro (não pedido para a demonstração)

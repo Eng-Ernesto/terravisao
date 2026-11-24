@@ -1,11 +1,12 @@
 services:
-  terravisao:
+  geoexplora:
     build: .
-    image: terravisao:dev
+    image: geoexplora:dev
     ports:
       - "8501:8501"
     volumes:
-      # Cache de descargas persiste entre execuções.
+      # Cache de descargas e análises novas persistem entre execuções.
       - ./data/cache:/srv/data/cache
     environment:
       TERRAVISAO_CACHE_DIR: /srv/data/cache
+      GEOEXPLORA_ROOT: /srv

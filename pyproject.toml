@@ -37,12 +37,18 @@ analysis = [
     "scikit-learn>=1.4",
     "scipy>=1.11",
 ]
+web = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.9",
+]
 report = [
     "matplotlib>=3.8",
     "reportlab>=4.0",
 ]
 dev = [
     "pytest>=8.0",
+    "httpx>=0.27",
     "pytest-cov>=5.0",
     "ruff>=0.5",
     "mypy>=1.10",
@@ -77,6 +83,8 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 "src/terravisao/report/pdf.py" = ["E501"]
 "src/geoexplora/assistant.py" = ["E501"]
 "src/geoexplora/report.py" = ["E501"]
+# FastAPI declara parâmetros com File()/Form() nos valores por omissão.
+"src/geoexplora/web/api.py" = ["B008"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -84,7 +92,7 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*", "reportlab.*", "pandas.*", "sklearn.*"]
+module = ["rasterio.*", "skimage.*", "scipy.*", "odc.*", "pystac_client.*", "affine", "geopandas.*", "rioxarray.*", "reportlab.*", "pandas.*", "sklearn.*", "uvicorn.*"]
 ignore_missing_imports = true
 
 # Bibliotecas científicas sem tipos: não exigir tipagem nas chamadas a elas.
