@@ -128,3 +128,34 @@ def is_online(host: str = "server.arcgisonline.com", ttl: float = 60.0) -> bool:
         ok = 0.0
     _ONLINE_CACHE.update(t=now, ok=ok)
     return bool(ok)
+
+
+def lonlat_bounds(x0: float, y0: float, x1: float, y1: float, epsg: int) -> list[list[float]]:
+    """Limites de uma caixa em UTM como [[lat0, lon0], [lat1, lon1]] para o folium."""
+    t = Transformer.from_crs(epsg, 4326, always_xy=True)
+    lon0, lat0 = t.transform(x0, y0)
+    lon1, lat1 = t.transform(x1, y1)
+    return [[lat0, lon0], [lat1, lon1]]
+
+
+def array_png(arr: np.ndarray, cmap: str, vmin: float, vmax: float, opacity: float) -> str:
+    """Matriz 2D -> PNG transparente (data URI) com a rampa de cor escolhida."""
+    ok = np.isfinite(arr)
+    norm = np.clip((arr - vmin) / max(vmax - vmin, 1e-9), 0, 1)
+    rgba = colormaps[cmap](norm)
+    rgba[..., 3] = np.where(ok, opacity, 0.0)
+    return _png_uri(rgba)
+
+
+def find_satellite_base(lon: np.ndarray, lat: np.ndarray, min_cover: float = 0.8) -> Path | None:
+    """Resultado do TerraVisão com imagem RGB que cobre as amostras (contexto de satélite)."""
+    for folder in list_demos().values():
+        tif = folder / "layer_rgb.tif"
+        if not tif.exists():
+            continue
+        with rasterio.open(tif) as src:
+            (la0, lo0), (la1, lo1) = _bounds_wgs84(src)
+        inside = (lon >= lo0) & (lon <= lo1) & (lat >= la0) & (lat <= la1)
+        if float(inside.mean()) >= min_cover:
+            return folder
+    return None

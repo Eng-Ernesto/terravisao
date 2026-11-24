@@ -1,5 +1,7 @@
 # 14 — GeoExplora IA: visão, módulos e âmbito
 
+> Apresentação: 3.ª SAGEO, 25 a 27 de Novembro. Roteiro em [15-roteiro-demonstracao.md](15-roteiro-demonstracao.md).
+
 > Documento vivo. Regista o que a equipa do projecto pediu, o que entra na versão de demonstração e **porque é que cada ideia entrou ou ficou de fora**.
 
 ## 1. Produto
@@ -53,6 +55,21 @@ Legenda: ✅ entra hoje · 🟡 parcial · ⏳ fase seguinte · ❌ fora do âmb
 | 10 | Vista 3D | ⏳ | Fora do tempo de hoje; não bloqueia a demonstração |
 | 11 | Testes em várias regiões de Angola | ⏳ | Precisa de dados reais |
 | 12 | Contas de utilizador e partilha | ❌ | Não é necessário para a demonstração presencial |
+
+## 4.1 Estado de implementação (24 de Novembro)
+
+| Parte | Estado |
+|---|---|
+| Carregar CSV, GeoJSON, Shapefile (zip) e GeoTIFF | Feito e testado |
+| Terras raras: TREO (parcial ou total) e NdPr/TREO; outro elemento crítico se não houver terras raras | Feito e testado |
+| Classes de anomalia, superfície, zonas com teste de permutação | Feito e testado |
+| Derivadas magnéticas (1.ª vertical, gradiente horizontal, sinal analítico) | Feito e testado |
+| Relação com a geofísica e modelo com validação por blocos espaciais | Feito e testado |
+| Assistente offline (respostas e interpretação automática) | Feito e testado |
+| Assistente com Cloudflare Workers AI | Escrito e testado **com respostas simuladas**; **não testado contra a API real** (falta um token) |
+| Relatório técnico em PDF | Feito |
+| Interface com os dois módulos | Feita e verificada no navegador |
+| Docker | Actualizado; **continua por testar** numa máquina com Docker |
 
 ## 5. Como a IA se divide (o que é leve e o que não é)
 

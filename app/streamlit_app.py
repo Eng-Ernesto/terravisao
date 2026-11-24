@@ -1,4 +1,5 @@
-"""TerraVisão — interface Streamlit. Só apresenta e orquestra; a ciência vive em `terravisao`."""
+"""GeoExplora IA — interface Streamlit. Só apresenta e orquestra; a ciência vive em `geoexplora`
+e `terravisao`."""
 
 from __future__ import annotations
 
@@ -24,8 +25,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from terravisao.aoi import AoiError, area_km2, validate_aoi  # noqa: E402
 from terravisao.config import Target  # noqa: E402
 from ui import data, theme  # noqa: E402
+from ui.maps import (  # noqa: E402
+    STATIC,
+    base_options,
+    fmt_coord,
+    label,
+    new_map,
+    outlines,
+    top_bar,
+)
 
-st.set_page_config(page_title="TerraVisão", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="GeoExplora IA", layout="wide", initial_sidebar_state="expanded")
 st.markdown(f"<style>{theme.CSS}</style>", unsafe_allow_html=True)
 
 LAYERS = {
@@ -55,19 +65,6 @@ PLACES = {
     "Benguela": (-12.58, 13.41, 11),
     "Luanda": (-8.84, 13.23, 10),
 }
-ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/{}/MapServer/tile/{{z}}/{{y}}/{{x}}"
-FILL_MAP_CSS = (
-    "<style>html,body,.float-child{height:100%;margin:0}"
-    ".leaflet-container{position:absolute!important;inset:0;height:100%!important;width:100%!important;"
-    "background:#EAE5D9!important}</style>"
-)
-# Leaflet servido localmente (app/static): o mapa funciona sem internet.
-STATIC = "/app/static/leaflet"
-LOCAL_JS = [("leaflet", f"{STATIC}/leaflet.js")]
-LOCAL_CSS = [("leaflet_css", f"{STATIC}/leaflet.css")]
-BASE_OFFLINE = "Offline"
-BASE_SAT = "Online: satélite"
-BASE_LIGHT = "Online: mapa claro"
 
 
 @st.cache_data(show_spinner="A gerar o relatório…")
@@ -89,70 +86,28 @@ def data_zip(folder: str) -> bytes:
     return buf.getvalue()
 
 
-def label(text: str) -> None:
-    st.markdown(f'<div class="tv-label">{text}</div>', unsafe_allow_html=True)
-
-
-def fmt_coord(lat: float, lon: float) -> str:
-    ns, ew = ("S" if lat < 0 else "N"), ("W" if lon < 0 else "E")
-    return f"{abs(lat):.2f}°{ns}  {abs(lon):.2f}°{ew}".replace(".", ",")
-
-
-def outlines(geometry: dict[str, Any]) -> list[list[list[float]]]:
-    geom = shape(geometry)
-    polys = list(geom.geoms) if geom.geom_type == "MultiPolygon" else [geom]
-    return [[[y, x] for x, y in p.exterior.coords] for p in polys]
-
-
-def base_options() -> list[str]:
-    """Offline sempre; bases online só quando há internet."""
-    return [BASE_OFFLINE, BASE_SAT, BASE_LIGHT] if data.is_online() else [BASE_OFFLINE]
-
-
-def new_map(lat: float, lon: float, zoom: int, base: str) -> folium.Map:
-    online = base in (BASE_SAT, BASE_LIGHT)
-    tiles = ESRI.format("World_Imagery" if base == BASE_SAT else "Canvas/World_Light_Gray_Base")
-    m = folium.Map(
-        location=[lat, lon],
-        zoom_start=zoom,
-        tiles=tiles if online else None,
-        attr="Esri, HERE, Garmin, Maxar" if online else None,
-        zoom_control=True,
-        control_scale=True,
-        max_zoom=16,
-    )
-    m.default_js, m.default_css = LOCAL_JS, LOCAL_CSS
-    # O folium usa uma caixa com proporção fixa; forçar o mapa a preencher o quadro.
-    m.get_root().header.add_child(folium.Element(FILL_MAP_CSS))
-    if not online:  # base offline: fronteiras das províncias (domínio público)
-        folium.GeoJson(
-            data.provinces(),
-            style_function=lambda _f: {"color": "#B9B2A0", "weight": 1, "fillOpacity": 0},
-            tooltip=folium.GeoJsonTooltip(fields=["shapeName"], aliases=["Província"]),
-        ).add_to(m)
-    return m
-
-
-def top_bar(title: str, place: str, coords: str) -> None:
-    st.markdown(
-        f'<div class="tv-top"><div><span class="tv-brand">{html.escape(title)}</span>'
-        f'<span class="tv-place">{html.escape(place)}</span></div>'
-        f'<div class="tv-coords">{coords}</div></div>',
-        unsafe_allow_html=True,
-    )
+MODULE_MAP = "Análise de mapa"
+MODULE_SAT = "TerraVisão (satélite)"
 
 
 def sidebar_header() -> str:
+    """Marca, escolha do módulo e, no TerraVisão, o modo. Devolve (módulo, modo)."""
     with st.sidebar:
-        st.markdown('<div class="tv-side-title">TerraVisão</div>', unsafe_allow_html=True)
+        st.markdown('<div class="tv-side-title">GeoExplora IA</div>', unsafe_allow_html=True)
         st.markdown(
-            '<div class="tv-side-sub">Triagem de potencial mineral e hídrico</div>',
+            '<div class="tv-side-sub">Minerais críticos · transição energética</div>',
             unsafe_allow_html=True,
         )
-        mode = st.radio(
-            "Modo", ["Resultados", "Nova análise"], key="mode", label_visibility="collapsed"
+        module = st.radio(
+            "Módulo", [MODULE_MAP, MODULE_SAT], key="module", label_visibility="collapsed"
         )
-    return str(mode)
+        mode = "Resultados"
+        if module == MODULE_SAT:
+            st.markdown('<div class="tv-label">Triagem por satélite</div>', unsafe_allow_html=True)
+            mode = st.radio(
+                "Modo", ["Resultados", "Nova análise"], key="mode", label_visibility="collapsed"
+            )
+    return f"{module}|{mode}"
 
 
 def sidebar_footer() -> None:
@@ -453,10 +408,16 @@ def analyse(geometry: dict[str, Any], name: str, chosen: list[str]) -> None:
 
 # ============================================================================ Entrada
 if "_goto" in st.session_state:  # definido por analyse(); aplicado antes de criar os widgets
+    st.session_state["module"] = MODULE_SAT
     st.session_state["mode"] = "Resultados"
     st.session_state["site"] = st.session_state.pop("_goto")
 
-if sidebar_header() == "Nova análise":
+selection = sidebar_header()
+if selection.startswith(MODULE_MAP):
+    from ui import geo_page
+
+    geo_page.render()
+elif selection.endswith("Nova análise"):
     new_analysis_view()
 else:
     results_view()

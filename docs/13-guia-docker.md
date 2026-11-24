@@ -1,4 +1,4 @@
-# 13 — Guia: executar o TerraVisão com Docker
+# 13 — Guia: executar o GeoExplora IA com Docker
 
 Para correr a demonstração noutro computador. **Só a primeira vez precisa de internet** (para construir a imagem). Depois, a demonstração funciona sem ligação.
 
@@ -50,7 +50,7 @@ Está pronto quando aparecer uma linha como `You can now view your Streamlit app
 
 No navegador: **http://localhost:8501**
 
-Deve ver o ecrã «Resultados» com o terreno **Longonjo**: mapa com imagem de satélite, classe de probabilidade e a tabela de zonas à direita/em baixo. Experimente também **Lubango**.
+Deve ver o **GeoExplora IA** com o módulo **Análise de mapa**: amostras de Longonjo sobre imagem de satélite, classes de anomalia, a tabela de zonas e o painel do **Assistente** à direita. No menu à esquerda, escolha o conjunto «modelo sintético coerente» e experimente o módulo **TerraVisão (satélite)** (resultados de Longonjo e Lubango).
 
 ## 5. Testar offline (importante para a apresentação)
 
@@ -69,7 +69,9 @@ docker compose up
 
 Sem internet, a opção «Nova análise» mostra um aviso e não consegue descarregar imagens novas. Os exemplos continuam disponíveis em «Resultados».
 
-## 6. Roteiro de apresentação (5 minutos)
+## 6. Roteiro de apresentação
+
+O roteiro completo está em [15-roteiro-demonstracao.md](15-roteiro-demonstracao.md). Resumo (5 minutos):
 
 1. **Problema:** equipas de campo sem saber se o terreno vale a pena.
 2. **Resultados → Longonjo:** mostrar o mapa, a classe e as zonas A e B. Explicar que é **triagem**, não prova de minério.
@@ -81,14 +83,17 @@ Sem internet, a opção «Nova análise» mostra um aviso e não consegue descar
 ## 7. Lista de validação (preencher e enviar)
 
 - [ ] `docker compose up --build` terminou sem erros. Tempo: ____ min
-- [ ] http://localhost:8501 abre e mostra Longonjo
-- [ ] Lubango abre
+- [ ] http://localhost:8501 abre e mostra «Análise de mapa» (dados da equipa)
+- [ ] «Modelo sintético coerente» mostra uma zona A e o modelo «supera o acaso»
+- [ ] Os botões do Assistente respondem (offline) e a resposta aparece no topo do painel
+- [ ] «Relatório técnico (PDF)» descarrega e abre
+- [ ] Módulo TerraVisão: Longonjo e Lubango abrem
 - [ ] Mapa com imagem de satélite (sem internet)
 - [ ] Texto com as fontes certas (títulos com serifa); se aparecerem letras «normais», avisar
-- [ ] Relatório PDF descarrega e abre (8 páginas)
 - [ ] Dados (zip) descarrega
 - [ ] Sem internet: tudo acima continua a funcionar
-- [ ] Com internet: «Nova análise», desenhar e analisar funciona
+- [ ] Com internet: TerraVisão → «Nova análise», desenhar e analisar funciona
+- [ ] (Opcional) Assistente com token da Cloudflare: coloque o Account ID e o token em «Assistente de IA (opcional)», pergunte algo e diga-me se respondeu ou que erro deu
 - [ ] Computador, sistema e memória: ____________________
 
 ## 8. Parar, retomar e actualizar

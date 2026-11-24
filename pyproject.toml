@@ -75,6 +75,8 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 "app/**" = ["E501"]
 # Textos do relatório em português, com frases longas.
 "src/terravisao/report/pdf.py" = ["E501"]
+"src/geoexplora/assistant.py" = ["E501"]
+"src/geoexplora/report.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"

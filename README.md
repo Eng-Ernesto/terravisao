@@ -26,6 +26,7 @@ Comece por [docs/README.md](docs/README.md), que tem o índice e a ordem de leit
 | [10 Decisões e questões abertas](docs/10-decisoes-questoes-abertas.md) | ADRs e perguntas a resolver |
 | [11 Glossário](docs/11-glossario.md) | Termos técnicos e geológicos |
 | [12 Design e interface](docs/12-design-ui.md) | Direcção visual, paleta, tipografia, layout |
+| [15 Roteiro de demonstração](docs/15-roteiro-demonstracao.md) | Sequência e respostas para a apresentação da SAGEO |
 | [14 GeoExplora IA: visão e âmbito](docs/14-geoexplora-ia.md) | Produto, módulos, registo do que entra e do que fica de fora e porquê |
 | [13 Guia Docker](docs/13-guia-docker.md) | Como executar noutro computador, teste offline e validação |
 | [Anexo: protótipo GeoExplora IA](docs/anexos/prototipo-geoexplora-ia.md) | Resumo do PDF anterior (Longonjo) |

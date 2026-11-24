@@ -86,3 +86,19 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [ ] Atribuição de dados (Copernicus, USGS, OneGeology) na app e no PDF
 - [ ] Documentação de instalação testada em Windows e Linux
 - [ ] Notebook Colab equivalente ao pipeline
+
+## GeoExplora IA (24 de Novembro)
+
+- [x] Produto e módulos definidos; âmbito e justificações no doc 14 (ADR-17 a ADR-21)
+- [x] Núcleo `geoexplora`: leitura de CSV, GeoJSON, Shapefile e GeoTIFF; TREO e NdPr/TREO; outros elementos críticos
+- [x] Classes de anomalia, superfície, zonas com teste de permutação, correlações, modelo com validação espacial
+- [x] Derivadas magnéticas (1.ª vertical, gradiente horizontal, sinal analítico)
+- [x] Dois conjuntos de demonstração (equipa; modelo sintético coerente), rotulados como fictícios
+- [x] Assistente de IA: modo offline completo; Cloudflare Workers AI escrito e testado com respostas simuladas
+- [ ] Assistente com IA testado contra a API real da Cloudflare (precisa de token)
+- [x] Relatório técnico em PDF; amostras classificadas em CSV
+- [x] Interface com os módulos «Análise de mapa» e «TerraVisão (satélite)»
+- [x] Roteiro de demonstração (doc 15)
+- [ ] RTP (redução ao pólo), validado pelo geofísico
+- [ ] Dados reais (geofísica, geoquímica, geologia) e validação científica
+- [ ] Teste do Docker no outro computador

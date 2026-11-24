@@ -90,5 +90,9 @@ table.tv-zones td {{ border-bottom:1px solid var(--line); padding:9px 10px 9px 0
 .tv-hint {{ color:var(--ink-soft); font-size:12.5px; line-height:1.5; margin:6px 0 10px 0; }}
 .stButton > button[kind="primary"] {{ background:var(--oxide); border:1px solid var(--oxide); color:#fff; border-radius:4px; font-weight:600; width:100%; }}
 .stButton > button[kind="primary"]:disabled {{ background:var(--line); border-color:var(--line); color:var(--ink-soft); }}
+.tv-badge {{ display:inline-block; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--oxide); border:1px solid var(--oxide); border-radius:3px; padding:2px 8px; margin:0 0 10px 0; font-weight:600; }}
+.tv-sub {{ color:var(--ink-soft); font-size:12.5px; margin:-4px 0 10px 0; }}
+.tv-pill {{ display:inline-block; font-size:12px; border-radius:10px; padding:1px 9px; border:1px solid var(--line); margin-right:6px; }}
+[data-testid="stChatMessage"] {{ background: var(--paper-dark); border-radius:6px; font-size:13.5px; }}
 .tv-note {{ color:var(--ink-soft); font-size:12px; margin-top:12px; }}
 """
