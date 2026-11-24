@@ -23,9 +23,8 @@ class CliProvider(assistant.CloudflareProvider):
         text = extract_text(data).strip()
         if not text:
             raise assistant.AssistantError("o modelo devolveu uma resposta vazia", other_model=True)
-        print(
-            f"   [{model or self.model}: {dt:.1f} s, {data.get('usage', {}).get('neurons', '?')} neurons]"
-        )
+        neurons = data.get("usage", {}).get("neurons", "?")
+        print(f"   [{model or self.model}: {dt:.1f} s, {neurons} neurons]")
         return text
 
 
@@ -51,12 +50,8 @@ if __name__ == "__main__":
         answer, origin = bot.ask(q)
         print(f"[{origin}]", answer)
 
-    print(
-        "\n"
-        + "=" * 70
-        + "\nRECURSO: modelo que já não existe (llama-3.1-8b) deve cair para o seguinte"
-    )
-    answer, origin = make("@cf/meta/llama-3.1-8b-instruct").ask(
+    print("\n" + "=" * 70 + "\nRECURSO: modelo inexistente deve cair para o seguinte da lista")
+    answer, origin = make("@cf/meta/modelo-que-nao-existe").ask(
         "Há relação com a geofísica? Uma frase."
     )
     print(f"[{origin}]", answer)
