@@ -39,11 +39,11 @@ Tema do evento: *Do petróleo aos minerais críticos: o papel dos georecursos na
 
 **Funciona offline?** Sim, tudo menos o Assistente com IA em linguagem livre e a análise nova de satélite (TerraVisão).
 
-**A IA que responde no chat é local?** O modo offline é local. A IA em linguagem livre usa o Cloudflare Workers AI com a conta de quem usa, e só vê o resumo dos resultados.
+**A IA que responde no chat é local?** O modo offline é local. A IA em linguagem livre usa o Cloudflare Workers AI (modelo Mistral Small) com a conta de quem usa, e só vê o resumo dos resultados, nunca os ficheiros. Recusa garantir minério e diz quando não sabe.
 
 ## O que não prometer
 
 - Que os resultados representam mineralização real.
 - Que o modelo funciona sempre: com os dados da equipa não funciona, e isso é o correcto.
 - Que o Docker já foi testado noutra máquina.
-- Que a IA em linguagem livre já foi testada contra a API real: só foi testada com respostas simuladas.
+- Que a IA em linguagem livre funciona na máquina da apresentação sem a testar antes: foi testada com o serviço real na conta de desenvolvimento, mas o pedido com token noutra máquina convém ensaiar.

@@ -93,7 +93,7 @@ O roteiro completo está em [15-roteiro-demonstracao.md](15-roteiro-demonstracao
 - [ ] Dados (zip) descarrega
 - [ ] Sem internet: tudo acima continua a funcionar
 - [ ] Com internet: TerraVisão → «Nova análise», desenhar e analisar funciona
-- [ ] (Opcional) Assistente com token da Cloudflare: coloque o Account ID e o token em «Assistente de IA (opcional)», pergunte algo e diga-me se respondeu ou que erro deu
+- [ ] (Opcional) Assistente com IA: o token tem de ter permissão para o Workers AI. Coloque o Account ID e o token em «Assistente de IA (opcional)» e pergunte algo. Esperado: resposta em 3 a 8 s com «Com IA (Cloudflare Workers AI)» no painel; se falhar, a resposta automática indica o motivo (token inválido, quota esgotada, sem internet)
 - [ ] Computador, sistema e memória: ____________________
 
 ## 8. Parar, retomar e actualizar

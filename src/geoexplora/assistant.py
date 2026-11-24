@@ -17,7 +17,15 @@ import urllib.error
 import urllib.request
 from typing import Any
 
-DEFAULT_MODEL = "@cf/meta/llama-3.1-8b-instruct"
+# Escolhido por teste real (24/11/2026): segue as regras, cita os números e é rápido (~3 s,
+# ~40 neurons por pergunta). O llama-3.1-8b ainda responde (~6 neurons), mas saiu da lista do
+# catálogo e pode ser retirado; serve como opção barata via GEOEXPLORA_AI_MODEL. Gemma-4 e
+# glm-4.7-flash são modelos de raciocínio e devolvem resposta vazia com este limite de tokens.
+DEFAULT_MODEL = "@cf/mistralai/mistral-small-3.1-24b-instruct"
+FALLBACK_MODELS = (
+    "@cf/meta/llama-4-scout-17b-16e-instruct",
+    "@cf/openai/gpt-oss-20b",
+)
 ENDPOINT = "https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions"
 TIMEOUT_S = 30
 MAX_TURNS = 6
@@ -38,6 +46,10 @@ onde vale a pena confirmar no campo.
 
 class AssistantError(RuntimeError):
     """Falha do fornecedor de linguagem (mensagem mostrável ao utilizador)."""
+
+    def __init__(self, message: str, other_model: bool = False) -> None:
+        super().__init__(message)
+        self.other_model = other_model  # vale a pena tentar outro modelo
 
 
 def _fmt(x: float | None, nd: int = 1) -> str:
@@ -250,8 +262,10 @@ class CloudflareProvider:
     def __init__(self, account_id: str, token: str, model: str = DEFAULT_MODEL) -> None:
         self.account_id, self.token, self.model = account_id.strip(), token.strip(), model
 
-    def chat(self, messages: list[dict[str, str]]) -> str:
-        body = json.dumps({"model": self.model, "messages": messages, "max_tokens": 600}).encode()
+    def chat(self, messages: list[dict[str, str]], model: str | None = None) -> str:
+        body = json.dumps(
+            {"model": model or self.model, "messages": messages, "max_tokens": 600}
+        ).encode()
         req = urllib.request.Request(
             ENDPOINT.format(account=self.account_id),
             data=body,
@@ -260,18 +274,36 @@ class CloudflareProvider:
         try:
             with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-            return str(data["choices"][0]["message"]["content"]).strip()
         except urllib.error.HTTPError as exc:
             hint = {
                 401: "token inválido",
                 403: "modelo não permitido neste plano",
+                404: "modelo não encontrado",
                 429: "quota esgotada",
             }
-            raise AssistantError(hint.get(exc.code, f"erro {exc.code}")) from exc
+            raise AssistantError(
+                hint.get(exc.code, f"erro {exc.code}"), other_model=exc.code in (400, 403, 404)
+            ) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise AssistantError("sem ligação à internet") from exc
-        except (KeyError, IndexError, ValueError) as exc:
+        except ValueError as exc:
             raise AssistantError("resposta inesperada do serviço") from exc
+        text = _extract_text(data)
+        if not text:
+            # Modelos «de raciocínio» gastam o limite de tokens a pensar e devolvem vazio.
+            raise AssistantError("o modelo devolveu uma resposta vazia", other_model=True)
+        return text
+
+
+def _extract_text(data: dict[str, Any]) -> str:
+    """Texto da resposta, no formato OpenAI (choices) ou no formato Workers AI (response)."""
+    result = data.get("result")
+    inner: dict[str, Any] = result if isinstance(result, dict) else data
+    choices = inner.get("choices") or data.get("choices")
+    if choices:
+        msg = choices[0].get("message") or {}
+        return str(msg.get("content") or choices[0].get("text") or "").strip()
+    return str(inner.get("response") or "").strip()
 
 
 class Assistant:
@@ -287,17 +319,17 @@ class Assistant:
         self.summary = summary
         account_id = account_id or os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
         token = token or os.environ.get("CLOUDFLARE_API_TOKEN", "")
+        self.model = model or os.environ.get("GEOEXPLORA_AI_MODEL", DEFAULT_MODEL)
         self.provider = (
-            CloudflareProvider(
-                account_id, token, model or os.environ.get("GEOEXPLORA_AI_MODEL", DEFAULT_MODEL)
-            )
-            if account_id and token
-            else None
+            CloudflareProvider(account_id, token, self.model) if account_id and token else None
         )
 
     @property
     def mode(self) -> str:
         return "ia" if self.provider else "offline"
+
+    def _models(self) -> list[str]:
+        return [self.model, *[m for m in FALLBACK_MODELS if m != self.model]]
 
     def ask(self, question: str, history: list[dict[str, str]] | None = None) -> tuple[str, str]:
         """Devolve (resposta, origem) com origem «ia» ou «offline». Nunca levanta excepção."""
@@ -310,8 +342,20 @@ class Assistant:
         messages = [{"role": "system", "content": SYSTEM_PROMPT + "\n\n" + context}]
         messages += (history or [])[-2 * MAX_TURNS :]
         messages.append({"role": "user", "content": question})
+        last: AssistantError | None = None
         try:
-            return self.provider.chat(messages), "ia"
+            for model in self._models():
+                try:
+                    answer = self.provider.chat(messages, model)
+                except AssistantError as exc:
+                    last = exc
+                    if exc.other_model:
+                        continue  # modelo indisponível ou sem resposta: tenta o seguinte
+                    raise
+                if self.summary["conjunto"]["ficticio"] and "fictíc" not in answer.lower():
+                    answer += "\n\n(Dados fictícios: demonstração.)"
+                return answer, "ia"
+            raise last or AssistantError("nenhum modelo disponível")
         except AssistantError as exc:
             note = f"(Assistente de IA indisponível: {exc}. Resposta automática.)\n\n"
             return note + offline_answer(question, self.summary), "offline"

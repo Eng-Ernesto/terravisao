@@ -83,7 +83,8 @@ def test_cloudflare_success_sends_summary_but_not_the_token_in_body(coherent, mo
     monkeypatch.setattr("urllib.request.urlopen", fake_open)
     a = assistant.Assistant(coherent, account_id="acc123", token="tok-secret")
     answer, origin = a.ask("Resume.")
-    assert (answer, origin) == ("Resposta da IA.", "ia")
+    assert origin == "ia" and answer.startswith("Resposta da IA.")
+    assert "fictícios" in answer  # os dados da demonstração são fictícios: aviso garantido
     assert "/accounts/acc123/ai/v1/chat/completions" in seen["url"]
     assert seen["auth"] == "Bearer tok-secret"
     body = json.dumps(seen["body"])
@@ -128,3 +129,64 @@ def test_brief_is_short_and_honest(team, coherent):
     assert "FICTÍCIOS" in b_team and "não supera o acaso" in b_team
     assert "zona de interesse" in b_coh and "**A**" in b_coh
     assert len(b_coh) < 450
+
+
+def _ok(text):
+    return FakeResponse(json.dumps({"choices": [{"message": {"content": text}}]}).encode())
+
+
+def test_default_model_is_one_that_exists():
+    assert assistant.DEFAULT_MODEL == "@cf/mistralai/mistral-small-3.1-24b-instruct"
+    assert "llama-3.1-8b" not in assistant.DEFAULT_MODEL  # já não existe no catálogo
+
+
+def test_unavailable_model_falls_back_to_the_next_one(coherent, monkeypatch):
+    tried = []
+
+    def fake_open(req, timeout):
+        model = json.loads(req.data)["model"]
+        tried.append(model)
+        if model == assistant.DEFAULT_MODEL:
+            raise urllib.error.HTTPError("u", 404, "x", {}, None)
+        return _ok("Resposta do segundo modelo.")
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_open)
+    answer, origin = assistant.Assistant(coherent, account_id="a", token="t").ask("Resume.")
+    assert origin == "ia" and answer.startswith("Resposta do segundo modelo.")
+    assert tried == [assistant.DEFAULT_MODEL, assistant.FALLBACK_MODELS[0]]
+
+
+def test_empty_answer_from_reasoning_model_is_not_returned(coherent, monkeypatch):
+    # gemma-4 e glm-4.7-flash gastam os tokens a pensar e devolvem content vazio
+    def fake_open(req, timeout):
+        return FakeResponse(
+            json.dumps(
+                {"choices": [{"message": {"content": "", "reasoning_content": "..."}}]}
+            ).encode()
+        )
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_open)
+    answer, origin = assistant.Assistant(coherent, account_id="a", token="t").ask(
+        "Onde estão as zonas?"
+    )
+    assert origin == "offline" and "vazia" in answer and "Zona" in answer
+
+
+def test_quota_error_does_not_try_other_models(coherent, monkeypatch):
+    calls = []
+
+    def boom(req, timeout):
+        calls.append(1)
+        raise urllib.error.HTTPError("u", 429, "x", {}, None)
+
+    monkeypatch.setattr("urllib.request.urlopen", boom)
+    answer, origin = assistant.Assistant(coherent, account_id="a", token="t").ask("Resume.")
+    assert origin == "offline" and "quota esgotada" in answer and len(calls) == 1
+
+
+def test_workers_ai_native_format_is_understood():
+    assert assistant._extract_text({"result": {"response": "Olá"}}) == "Olá"
+    assert assistant._extract_text({"choices": [{"message": {"content": " Olá "}}]}) == "Olá"
+    assert (
+        assistant._extract_text({"result": {"choices": [{"message": {"content": "Olá"}}]}}) == "Olá"
+    )

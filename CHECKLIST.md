@@ -95,7 +95,8 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] Derivadas magnéticas (1.ª vertical, gradiente horizontal, sinal analítico)
 - [x] Dois conjuntos de demonstração (equipa; modelo sintético coerente), rotulados como fictícios
 - [x] Assistente de IA: modo offline completo; Cloudflare Workers AI escrito e testado com respostas simuladas
-- [ ] Assistente com IA testado contra a API real da Cloudflare (precisa de token)
+- [x] Assistente com IA testado contra o Workers AI real (via CLI `cf`); modelo escolhido por teste (ADR-22)
+- [ ] Pedido HTTP directo com token de API, noutra máquina (ensaiar antes da apresentação)
 - [x] Relatório técnico em PDF; amostras classificadas em CSV
 - [x] Interface com os módulos «Análise de mapa» e «TerraVisão (satélite)»
 - [x] Roteiro de demonstração (doc 15)

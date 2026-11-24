@@ -66,7 +66,7 @@ Legenda: ✅ entra hoje · 🟡 parcial · ⏳ fase seguinte · ❌ fora do âmb
 | Derivadas magnéticas (1.ª vertical, gradiente horizontal, sinal analítico) | Feito e testado |
 | Relação com a geofísica e modelo com validação por blocos espaciais | Feito e testado |
 | Assistente offline (respostas e interpretação automática) | Feito e testado |
-| Assistente com Cloudflare Workers AI | Escrito e testado **com respostas simuladas**; **não testado contra a API real** (falta um token) |
+| Assistente com Cloudflare Workers AI | Testado de ponta a ponta **contra o serviço real** através da CLI `cf` (conta do utilizador): prompt, contexto, escolha de modelo, recurso a outro modelo e recusa de certezas. **Por exercitar:** o pedido HTTP directo com token (a documentação foi seguida, mas não foi chamado) |
 | Relatório técnico em PDF | Feito |
 | Interface com os dois módulos | Feita e verificada no navegador |
 | Docker | Actualizado; **continua por testar** numa máquina com Docker |
@@ -81,6 +81,21 @@ Legenda: ✅ entra hoje · 🟡 parcial · ⏳ fase seguinte · ❌ fora do âmb
 | Assistente offline (respostas padrão e interpretação automática) | Local | Nenhum | Não |
 
 Regra: **o assistente nunca calcula nem inventa**. Lê um resumo estruturado dos resultados. Sem internet ou token, a plataforma funciona na mesma e o chat responde com o modo offline.
+
+### 5.1 Modelo do assistente (teste real, 24 de Novembro)
+
+Testados com o pedido real do assistente (resumo da análise + pergunta), na conta do utilizador:
+
+| Modelo | Neurons / pergunta | Tempo | Resultado |
+|---|---|---|---|
+| `@cf/mistralai/mistral-small-3.1-24b-instruct` | ~42 | 3 s | **Escolhido.** Cita os números, recusa garantir minério e diz que os dados são fictícios |
+| `@cf/meta/llama-4-scout-17b-16e-instruct` | ~33 | 5 s | Bom; primeira alternativa |
+| `@cf/openai/gpt-oss-20b` | ~27 | 5 s | Bom, com um erro de redacção; segunda alternativa |
+| `@cf/ibm-granite/granite-4.0-h-micro` | ~3,5 | 8 s | Barato, mas mais solto |
+| `@cf/meta/llama-3.1-8b-instruct` | ~6 | 1,5 s | Responde, mas **fora da lista do catálogo**: pode ser retirado |
+| `@cf/google/gemma-4-26b-a4b-it`, `@cf/zai-org/glm-4.7-flash` | ~24 | 9 a 13 s | **Inutilizáveis**: modelos de raciocínio gastam os tokens a pensar e devolvem resposta vazia |
+
+Com ~42 neurons por pergunta, a quota gratuita de 10 000 neurons por dia dá para cerca de 230 perguntas (o plano da conta usada nos testes não foi verificado). O código recorre ao modelo seguinte se um estiver indisponível ou devolver vazio, e garante sempre o aviso de «dados fictícios» nas respostas da IA.
 
 ## 6. Arquitectura
 

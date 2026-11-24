@@ -24,6 +24,7 @@
 | ADR-19 | Módulo principal «Análise de mapa»: o geofísico carrega os dados e a plataforma classifica, delimita zonas, relaciona geoquímica e geofísica e explica via chat e relatório | Pedido da equipa (doc 14) | Só triagem por satélite |
 | ADR-20 | IA em duas camadas: modelos leves locais (scikit-learn) e assistente de linguagem na Cloudflare, com modo offline. Modelo supervisionado só com validação espacial e aviso quando não supera o acaso | Computadores fracos; honestidade científica | LLM local; ML sem validação |
 | ADR-21 | Segundo conjunto de demonstração sintético coerente, sempre rotulado como fictício, para mostrar o motor quando há relação nos dados | Os dados da equipa são aleatórios e não mostram relações | Usar só os dados aleatórios |
+| ADR-22 | Modelo por defeito do assistente: `@cf/mistralai/mistral-small-3.1-24b-instruct`, com recurso automático a `llama-4-scout` e `gpt-oss-20b`. Substitui a escolha prevista (`llama-3.1-8b`) | Teste real com o pedido do assistente (doc 14, §5.1). Resolve a Q-16 | Modelos de raciocínio (resposta vazia); modelo fora do catálogo |
 | ADR-10 (substituída pela ADR-17) | Nome oficial do produto: **TerraVisão**. "GeoExplora IA" fica como nome do protótipo anterior (Q-06 resolvida) | Decisão do dono do projecto | Manter dois nomes |
 
 ## 2. Questões abertas
