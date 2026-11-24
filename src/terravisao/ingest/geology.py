@@ -19,7 +19,7 @@ RULES_CSV = Path("data/reference/litologia_regras.csv")
 
 
 def load_rules(path: Path = RULES_CSV) -> dict[str, dict[str, float]]:
-    """CSV: unidade,ferro,cobre,ouro,agua (valores 0–1). Chave = texto da unidade/litologia."""
+    """CSV: unidade + uma coluna por alvo (valores 0–1). Chave = texto da unidade."""
     import csv
 
     rules: dict[str, dict[str, float]] = {}

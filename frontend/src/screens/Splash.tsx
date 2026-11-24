@@ -27,7 +27,7 @@ export function Splash({ onStart }: { onStart: () => void }) {
 
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center px-6 text-center">
         <motion.div {...fade(0.1)}>
-          <LogoMark className="size-16 text-primary drop-shadow-[0_10px_25px_rgba(26,91,215,0.35)]" />
+          <LogoMark animated className="size-20 text-primary drop-shadow-[0_10px_25px_rgba(26,91,215,0.35)]" />
         </motion.div>
         <motion.h1 {...fade(0.45)} className="mt-6 text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
           GeoExplora <span className="text-primary">IA</span>

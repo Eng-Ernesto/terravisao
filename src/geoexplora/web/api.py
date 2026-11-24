@@ -151,7 +151,40 @@ def _payload(aid: str, a: Analysis) -> dict[str, Any]:
             [float(df["lat"].max()), float(df["lon"].max())],
         ],
         "warnings": list(dict.fromkeys(a.warnings)),
+        "stats": _stats(a),
     }
+
+
+def _stats(a: Analysis) -> list[dict[str, Any]]:
+    """Estatística descritiva por variável (elementos, métrica e covariáveis)."""
+    df = a.points.df
+    cols = [(f"{e}_ppm", f"{e} (ppm)") for e in a.points.elements]
+    cols += [("metrica_ppm", a.treo_label)]
+    if "ndpr_share" in df.columns:
+        cols += [("ndpr_share", "NdPr/TREO")]
+    cols += [
+        (c, c.replace("grelha:", "") + " (grelha)" if c.startswith("grelha:") else c)
+        for c in a.points.covariates
+    ]
+    out = []
+    for col, label in cols:
+        if col not in df.columns:
+            continue
+        v = df[col].dropna()
+        if v.empty:
+            continue
+        out.append(
+            {
+                "variavel": label,
+                "n": int(v.size),
+                "min": round(float(v.min()), 3),
+                "mediana": round(float(v.median()), 3),
+                "media": round(float(v.mean()), 3),
+                "max": round(float(v.max()), 3),
+                "desvio": round(float(v.std()), 3),
+            }
+        )
+    return out
 
 
 @app.post("/api/analyses")
@@ -312,9 +345,11 @@ def tv_result(rid: str) -> dict[str, Any]:
 
 
 @app.get("/api/terravisao/results/{rid}/layer")
-def tv_layer(rid: str, layer: str, target: str = "ferro", opacity: float = 0.8) -> dict[str, Any]:
+def tv_layer(
+    rid: str, layer: str, target: str = "terras_raras", opacity: float = 0.8
+) -> dict[str, Any]:
     folder = _folder(rid)
-    if layer not in TV_LAYERS or not re.fullmatch(r"[a-z]+", target):
+    if layer not in TV_LAYERS or not re.fullmatch(r"[a-z_]+", target):
         raise HTTPException(404, "Camada desconhecida.")
     kind, pattern = TV_LAYERS[layer]
     name = pattern.format(t=target)
@@ -369,7 +404,9 @@ def tv_validate(body: GeometryIn) -> dict[str, Any]:
 
 class JobIn(BaseModel):
     geometry: dict[str, Any]
-    targets: list[str] = Field(default_factory=lambda: ["ferro", "cobre", "ouro", "agua"])
+    targets: list[str] = Field(
+        default_factory=lambda: ["terras_raras", "cobre", "litio", "manganes"]
+    )
     name: str = "Meu terreno"
 
 

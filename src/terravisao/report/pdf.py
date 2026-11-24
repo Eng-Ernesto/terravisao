@@ -36,7 +36,12 @@ LINE = colors.HexColor("#D8D2C4")
 OXIDE = colors.HexColor("#B4532A")
 LEVEL = {"baixa": "baixa", "media": "média", "alta": "alta"}
 LEVEL_COLOR = {"baixa": "#5E7A63", "media": "#C9A227", "alta": "#B4532A"}
-TARGET_LABEL = {"ferro": "Ferro", "cobre": "Cobre", "ouro": "Ouro", "agua": "Água subterrânea"}
+TARGET_LABEL = {
+    "terras_raras": "Terras raras",
+    "cobre": "Cobre",
+    "litio": "Lítio",
+    "manganes": "Manganês",
+}
 LAYER_LABEL = {
     "iron_oxide": "Óxido de ferro",
     "ferrous": "Ferroso",

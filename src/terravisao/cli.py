@@ -30,7 +30,7 @@ def main(argv: list[str] | None = None) -> int:
 
     run = sub.add_parser("run", help="Analisa um terreno e grava mapas e zonas")
     run.add_argument("geojson", type=Path)
-    run.add_argument("--targets", default="ferro,cobre,ouro,agua")
+    run.add_argument("--targets", default="terras_raras,cobre,litio,manganes")
     run.add_argument("--out", type=Path, default=Path("output"))
 
     rep = sub.add_parser("report", help="Gera o relatório PDF de uma pasta de resultados")

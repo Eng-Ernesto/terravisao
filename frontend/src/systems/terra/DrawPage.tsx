@@ -13,10 +13,10 @@ import { cn } from "@/lib/utils"
 import { DrawTool, toPolygon, type DrawMode } from "./DrawTool"
 
 const TARGETS = [
-  { id: "ferro", label: "Ferro" },
+  { id: "terras_raras", label: "Terras raras" },
   { id: "cobre", label: "Cobre" },
-  { id: "ouro", label: "Ouro" },
-  { id: "agua", label: "Água subterrânea" },
+  { id: "litio", label: "Lítio (experimental)" },
+  { id: "manganes", label: "Manganês" },
 ]
 const PLACES: Record<string, [number, number, number]> = {
   Angola: [-12.3, 17.5, 6],

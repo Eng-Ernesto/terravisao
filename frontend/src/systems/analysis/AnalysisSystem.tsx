@@ -1,4 +1,4 @@
-import { BookOpen, FileText, Map as MapIcon, MessagesSquare, Plus, Sparkles, UploadCloud, Wand2 } from "lucide-react"
+import { BarChart3, BookOpen, Brain, FileText, LayoutDashboard, Map as MapIcon, MessagesSquare, Plus, Sparkles, UploadCloud, Wand2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import type { Screen } from "@/App"
 import { AiSettings } from "@/components/AiSettings"
@@ -8,7 +8,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { api, type AiCreds, type Analysis, type Dataset } from "@/lib/api"
 import { aiCreds, guide } from "@/lib/storage"
+import { AiPage } from "./AiPage"
 import { Conversation, type Turn } from "./Conversation"
+import { DataPage } from "./DataPage"
+import { OverviewPage } from "./OverviewPage"
 import { MapPage } from "./MapPage"
 import { ReportPage } from "./ReportPage"
 import { Welcome } from "./Welcome"
@@ -31,7 +34,7 @@ const STEPS: GuideStep[] = [
   },
 ]
 
-type Page = "conversa" | "mapa" | "relatorio"
+type Page = "visao" | "conversa" | "mapa" | "dados" | "ia" | "relatorio"
 
 export function AnalysisSystem({ onNavigate }: { onNavigate: (s: Screen) => void }) {
   const [page, setPage] = useState<Page>("conversa")
@@ -89,17 +92,24 @@ export function AnalysisSystem({ onNavigate }: { onNavigate: (s: Screen) => void
     setPage("conversa")
   }
 
+  const hint = analysis ? undefined : "Carregue dados primeiro"
   const menu = [
-    { id: "conversa", label: "Conversa", icon: MessagesSquare },
-    { id: "mapa", label: "Mapa", icon: MapIcon, disabled: !analysis, hint: analysis ? undefined : "Carregue dados primeiro" },
-    { id: "relatorio", label: "Relatório", icon: FileText, disabled: !analysis, hint: analysis ? undefined : "Carregue dados primeiro" },
+    { id: "visao", label: "Visão geral", icon: LayoutDashboard, disabled: !analysis, hint },
+    { id: "conversa", label: "Assistente geológico", icon: MessagesSquare },
+    { id: "mapa", label: "Cartografia", icon: MapIcon, disabled: !analysis, hint },
+    { id: "dados", label: "Análise de dados", icon: BarChart3, disabled: !analysis, hint },
+    { id: "ia", label: "Inteligência artificial", icon: Brain, disabled: !analysis, hint },
+    { id: "relatorio", label: "Relatório", icon: FileText, disabled: !analysis, hint },
     { id: "guia", label: "Guia", icon: BookOpen },
-    { id: "ia", label: "Assistente de IA", icon: Sparkles },
+    { id: "definicoes", label: "Definições da IA", icon: Sparkles },
   ]
 
   const titles: Record<Page, string> = {
     conversa: analysis ? analysis.title : "Nova análise",
-    mapa: "Mapa",
+    visao: "Visão geral",
+    mapa: "Visualização cartográfica",
+    dados: "Análise de dados",
+    ia: "Inteligência artificial",
     relatorio: "Relatório e dados",
   }
 
@@ -112,7 +122,7 @@ export function AnalysisSystem({ onNavigate }: { onNavigate: (s: Screen) => void
       active={page}
       onSelect={(id) => {
         if (id === "guia") setGuideOpen(true)
-        else if (id === "ia") setAiOpen(true)
+        else if (id === "definicoes") setAiOpen(true)
         else setPage(id as Page)
       }}
       switchLabel="Ir para o TerraVisão"
@@ -157,7 +167,10 @@ export function AnalysisSystem({ onNavigate }: { onNavigate: (s: Screen) => void
           onShowMap={() => setPage("mapa")}
         />
       )}
+      {analysis && page === "visao" && <OverviewPage a={analysis} onGo={setPage} />}
       {analysis && page === "mapa" && <MapPage a={analysis} />}
+      {analysis && page === "dados" && <DataPage a={analysis} />}
+      {analysis && page === "ia" && <AiPage a={analysis} />}
       {analysis && page === "relatorio" && <ReportPage a={analysis} />}
 
       <Guide

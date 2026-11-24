@@ -18,7 +18,7 @@ def test_extract_zones_ranks_by_score_and_area():
         score,
         layers,
         {"iron_oxide": 1.0},
-        Target.IRON,
+        Target.REE,
         pixel_area_km2=0.0004,
         min_area_km2=0.0,
     )
@@ -33,7 +33,7 @@ def test_min_zone_area_filters_small():
     classes[5:8, 5:8] = 2
     score = np.where(classes == 2, 0.9, 0.0).astype(np.float32)
     zones, _ = extract_zones(
-        classes, score, {}, {}, Target.GOLD, pixel_area_km2=0.0004, min_area_km2=1.0
+        classes, score, {}, {}, Target.COPPER, pixel_area_km2=0.0004, min_area_km2=1.0
     )
     assert zones == []
 

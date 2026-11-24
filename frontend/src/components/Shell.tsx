@@ -25,7 +25,7 @@ export function Shell({ system, subtitle, primary, menu, active, onSelect, switc
     <div className="flex h-svh bg-sidebar text-sidebar-foreground">
       <aside className="flex w-64 shrink-0 flex-col px-4 py-6">
         <div className="flex items-center gap-2.5 px-2">
-          <LogoMark className="size-9 text-white/20" />
+          <LogoMark className="size-9 text-white/15" />
           <div className="leading-tight">
             <div className="text-[15px] font-bold tracking-tight">{system}</div>
             <div className="text-[11px] text-white/70">{subtitle}</div>

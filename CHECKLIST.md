@@ -115,3 +115,10 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] Docker em duas fases (Node + Python)
 - [ ] Docker testado no outro computador (continua por testar)
 - [ ] Modo escuro (não pedido para a demonstração)
+
+## Ajustes de 24 de Novembro (tarde)
+
+- [x] Logótipo «G» em pixel art animado (SVG, sem imagem), sem estrela
+- [x] Análise de mapa com os módulos do protótipo: Visão geral, Assistente geológico, Cartografia, Análise de dados, Inteligência artificial, Relatório
+- [x] TerraVisão com minerais críticos (terras raras, cobre, lítio, manganês) e exemplos regenerados (ADR-23)
+- [ ] 21 províncias: falta ficheiro oficial com as fronteiras novas (ADR-24); pedir `Angola_Provincias_v2.geojson` à equipa

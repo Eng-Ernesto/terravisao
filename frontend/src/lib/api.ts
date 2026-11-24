@@ -56,7 +56,10 @@ export type Analysis = {
   derivatives: string[]
   bounds: LatLngBounds
   warnings: string[]
+  stats: Stat[]
 }
+
+export type Stat = { variavel: string; n: number; min: number; mediana: number; media: number; max: number; desvio: number }
 
 export type ChatMessage = { role: "user" | "assistant"; content: string; origin?: string }
 

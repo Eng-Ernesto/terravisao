@@ -7,10 +7,12 @@ from enum import StrEnum
 
 
 class Target(StrEnum):
-    IRON = "ferro"
+    """Minerais críticos para a transição energética (ADR-23)."""
+
+    REE = "terras_raras"
     COPPER = "cobre"
-    GOLD = "ouro"
-    WATER = "agua"
+    LITHIUM = "litio"
+    MANGANESE = "manganes"
 
 
 class Level(StrEnum):
@@ -19,16 +21,19 @@ class Level(StrEnum):
     HIGH = "alta"
 
 
-# Pesos por alvo; soma = 1 por alvo (verificado em testes).
+# Pesos por alvo; soma = 1 por alvo (verificado em testes). Pontos de partida [A CALIBRAR] com o
+# geofísico. O satélite só vê contexto favorável (alteração, óxidos, estruturas), não o mineral.
 DEFAULT_WEIGHTS: dict[Target, dict[str, float]] = {
-    Target.IRON: {
-        "iron_oxide": 0.35,
-        "ferrous": 0.10,
-        "clay": 0.10,
-        "lithology": 0.30,
-        "lineament_density": 0.10,
+    # Carbonatitos: halos de óxidos e alteração argilosa, estruturas circulares e falhas profundas.
+    Target.REE: {
+        "iron_oxide": 0.20,
+        "ferrous": 0.05,
+        "clay": 0.20,
+        "lithology": 0.25,
+        "lineament_density": 0.25,
         "slope_inv": 0.05,
     },
+    # Pórfiros e cinturões de cobre: alteração argilosa/fílica, óxidos (gossans), estruturas.
     Target.COPPER: {
         "iron_oxide": 0.15,
         "clay": 0.25,
@@ -36,29 +41,30 @@ DEFAULT_WEIGHTS: dict[Target, dict[str, float]] = {
         "lineament_density": 0.25,
         "slope_inv": 0.05,
     },
-    Target.GOLD: {
-        "iron_oxide": 0.20,
-        "clay": 0.20,
-        "lithology": 0.25,
+    # Pegmatitos: controlo estrutural e litológico forte; assinatura espectral fraca (experimental).
+    Target.LITHIUM: {
+        "iron_oxide": 0.10,
+        "clay": 0.25,
+        "lithology": 0.30,
         "lineament_density": 0.30,
         "slope_inv": 0.05,
     },
-    Target.WATER: {
-        "lithology": 0.25,
-        "lineament_density": 0.25,
-        "slope_inv": 0.15,
-        "twi": 0.15,
-        "drainage_density_inv": 0.10,
-        "ndvi": 0.10,
+    # Manganês (e ferro associado): óxidos férricos e ferrosos, litologia sedimentar/metamórfica.
+    Target.MANGANESE: {
+        "iron_oxide": 0.25,
+        "ferrous": 0.25,
+        "lithology": 0.30,
+        "lineament_density": 0.15,
+        "slope_inv": 0.05,
     },
 }
 
 
 RECOMMENDATIONS: dict[Target, str] = {
-    Target.IRON: "Magnetometria e amostragem de superfície.",
+    Target.REE: "Radiometria (Th, U) e magnetometria; geoquímica de solo (TREO, NdPr).",
     Target.COPPER: "Polarização induzida (IP), magnetometria e geoquímica de solo.",
-    Target.GOLD: "Geoquímica de solo/sedimento de corrente, magnetometria e IP.",
-    Target.WATER: "Resistividade (SEV/tomografia); verificar furos existentes na zona.",
+    Target.LITHIUM: "Mapeamento de pegmatitos no campo; geoquímica de solo e rocha (Li, Cs, Ta).",
+    Target.MANGANESE: "Magnetometria e gravimetria; amostragem de superfície dos óxidos.",
 }
 
 

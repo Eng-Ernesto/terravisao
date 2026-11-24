@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { api, type LatLngBounds, type Overlay, type TvResult, type TvResultItem } from "@/lib/api"
 import { cn } from "@/lib/utils"
 
-const TARGET_LABEL: Record<string, string> = { ferro: "Ferro", cobre: "Cobre", ouro: "Ouro", agua: "Água" }
+const TARGET_LABEL: Record<string, string> = { terras_raras: "Terras raras", cobre: "Cobre", litio: "Lítio", manganes: "Manganês" }
 const LAYER_LABEL: Record<string, string> = {
   classe: "Classe",
   pontuacao: "Pontuação",
@@ -38,7 +38,7 @@ export function ResultsPage({ initialId }: { initialId?: string }) {
   const [items, setItems] = useState<TvResultItem[]>([])
   const [selected, setSelected] = useState<string | undefined>(initialId)
   const [detail, setDetail] = useState<TvResult | null>(null)
-  const [target, setTarget] = useState("ferro")
+  const [target, setTarget] = useState("terras_raras")
   const [layer, setLayer] = useState("classe")
   const [opacity, setOpacity] = useState(0.8)
   const [underlay, setUnderlay] = useState(true)

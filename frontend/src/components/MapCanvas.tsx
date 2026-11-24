@@ -18,7 +18,15 @@ function FitBounds({ bounds }: { bounds?: LatLngBounds }) {
   const map = useMap()
   const key = bounds ? JSON.stringify(bounds) : ""
   useEffect(() => {
-    if (bounds) map.fitBounds(bounds, { padding: [32, 32] })
+    if (!bounds) return
+    // O contentor pode ainda não ter tamanho: medir de novo antes de ajustar.
+    const fit = () => {
+      map.invalidateSize()
+      map.fitBounds(bounds, { padding: [32, 32] })
+    }
+    fit()
+    const t = setTimeout(fit, 250)
+    return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
   return null

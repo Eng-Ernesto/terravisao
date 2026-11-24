@@ -1,7 +1,7 @@
 {
   "provenance": {
     "pipeline_version": "0.1.0",
-    "created_at": "2026-11-24T09:37:17.753434+00:00",
+    "created_at": "2026-11-24T13:40:46.280607+00:00",
     "scenes": {
       "sentinel2": [
         "S2B_33LWF_20260829_0_L2A",
@@ -40,30 +40,25 @@
   },
   "summary": {
     "warnings": [
-      "Geologia indisponível (ferro): Sem ficheiro de geologia em data/reference/geologia/.",
+      "Geologia indisponível (terras_raras): Sem ficheiro de geologia em data/reference/geologia/.",
       "Geologia indisponível (cobre): Sem ficheiro de geologia em data/reference/geologia/.",
-      "Geologia indisponível (ouro): Sem ficheiro de geologia em data/reference/geologia/.",
-      "Geologia indisponível (agua): Sem ficheiro de geologia em data/reference/geologia/."
+      "Geologia indisponível (litio): Sem ficheiro de geologia em data/reference/geologia/.",
+      "Geologia indisponível (manganes): Sem ficheiro de geologia em data/reference/geologia/."
     ],
     "targets": {
-      "ferro": {
+      "terras_raras": {
         "classe_final": "media",
         "confianca": "media",
         "area_por_classe_km2": {
-          "baixa": 12.514,
-          "media": 17.04,
-          "alta": 0.364
+          "baixa": 15.25,
+          "media": 14.511,
+          "alta": 0.157
         },
         "zonas": [
           {
             "id": "A",
-            "area_km2": 0.171,
-            "score_medio": 0.675
-          },
-          {
-            "id": "B",
-            "area_km2": 0.058,
-            "score_medio": 0.671
+            "area_km2": 0.154,
+            "score_medio": 0.674
           }
         ]
       },
@@ -88,46 +83,50 @@
           }
         ]
       },
-      "ouro": {
+      "litio": {
         "classe_final": "media",
         "confianca": "media",
         "area_por_classe_km2": {
-          "baixa": 17.854,
-          "media": 11.775,
-          "alta": 0.289
+          "baixa": 17.737,
+          "media": 11.72,
+          "alta": 0.461
         },
         "zonas": [
           {
             "id": "A",
-            "area_km2": 0.239,
-            "score_medio": 0.69
+            "area_km2": 0.316,
+            "score_medio": 0.714
+          },
+          {
+            "id": "B",
+            "area_km2": 0.082,
+            "score_medio": 0.675
+          },
+          {
+            "id": "C",
+            "area_km2": 0.055,
+            "score_medio": 0.662
           }
         ]
       },
-      "agua": {
+      "manganes": {
         "classe_final": "media",
         "confianca": "media",
         "area_por_classe_km2": {
-          "baixa": 15.716,
-          "media": 14.028,
-          "alta": 0.174
+          "baixa": 9.726,
+          "media": 20.192,
+          "alta": 0.0
         },
-        "zonas": [
-          {
-            "id": "A",
-            "area_km2": 0.173,
-            "score_medio": 0.673
-          }
-        ]
+        "zonas": []
       }
     }
   },
   "request": {
     "targets": [
-      "ferro",
+      "terras_raras",
       "cobre",
-      "ouro",
-      "agua"
+      "litio",
+      "manganes"
     ],
     "geometry": {
       "type": "Polygon",

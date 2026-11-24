@@ -25,6 +25,8 @@
 | ADR-20 | IA em duas camadas: modelos leves locais (scikit-learn) e assistente de linguagem na Cloudflare, com modo offline. Modelo supervisionado só com validação espacial e aviso quando não supera o acaso | Computadores fracos; honestidade científica | LLM local; ML sem validação |
 | ADR-21 | Segundo conjunto de demonstração sintético coerente, sempre rotulado como fictício, para mostrar o motor quando há relação nos dados | Os dados da equipa são aleatórios e não mostram relações | Usar só os dados aleatórios |
 | ADR-22 | Modelo por defeito do assistente: `@cf/mistralai/mistral-small-3.1-24b-instruct`, com recurso automático a `llama-4-scout` e `gpt-oss-20b`. Substitui a escolha prevista (`llama-3.1-8b`) | Teste real com o pedido do assistente (doc 14, §5.1). Resolve a Q-16 | Modelos de raciocínio (resposta vazia); modelo fora do catálogo |
+| ADR-23 | Alvos do TerraVisão passam a minerais críticos: terras raras (carbonatitos), cobre, lítio (pegmatitos, experimental) e manganês. Saem ferro isolado, ouro e água. Pesos a calibrar com o geofísico | Tema da SAGEO; o satélite só indica contexto favorável | Manter os alvos antigos |
+| ADR-24 | Mapa base mantém as 18 províncias (geoBoundaries 2021) até haver um ficheiro com as 21 províncias da Lei n.º 14/24. Não se desenham fronteiras sem fonte oficial | Não existe ficheiro público com as fronteiras novas (pesquisa de 24/11) | Desenhar as divisões à mão |
 | ADR-10 (substituída pela ADR-17) | Nome oficial do produto: **TerraVisão**. "GeoExplora IA" fica como nome do protótipo anterior (Q-06 resolvida) | Decisão do dono do projecto | Manter dois nomes |
 
 ## 2. Questões abertas

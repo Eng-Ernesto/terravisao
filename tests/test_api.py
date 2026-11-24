@@ -82,7 +82,7 @@ def test_terravisao_results_layers_and_exports():
     results = client.get("/api/terravisao/results").json()
     rid = next(r["id"] for r in results if r["id"] == "demo:longonjo")
     detail = client.get(f"/api/terravisao/results/{rid}").json()
-    assert detail["title"] == "Longonjo" and "ferro" in detail["summary"]["targets"]
+    assert detail["title"] == "Longonjo" and "terras_raras" in detail["summary"]["targets"]
     assert {"classe", "satelite"} <= set(detail["layers"])
     layer = client.get(f"/api/terravisao/results/{rid}/layer", params={"layer": "classe"})
     assert layer.status_code == 200 and len(layer.json()["bounds"]) == 2

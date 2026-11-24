@@ -12,7 +12,12 @@ BASALT = "#2B2F33"
 
 LEVEL_COLOR = {"baixa": MOSS, "media": OCHRE, "alta": OXIDE}
 LEVEL_LABEL = {"baixa": "Baixa", "media": "Média", "alta": "Alta"}
-TARGET_LABEL = {"ferro": "Ferro", "cobre": "Cobre", "ouro": "Ouro", "agua": "Água subterrânea"}
+TARGET_LABEL = {
+    "terras_raras": "Terras raras",
+    "cobre": "Cobre",
+    "litio": "Lítio",
+    "manganes": "Manganês",
+}
 
 CSS = f"""
 /* Fontes empacotadas em app/static/fonts: a app funciona sem internet. */
