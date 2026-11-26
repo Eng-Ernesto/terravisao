@@ -15,6 +15,11 @@ ENV PYTHONUNBUFFERED=1     PIP_NO_CACHE_DIR=1     AWS_NO_SIGN_REQUEST=YES     TE
 
 WORKDIR /srv
 
+# O wheel do rasterio/GDAL espera libexpat1 no sistema; a imagem "slim" não a traz
+# (o Python embute o seu próprio expat estático, por isso nunca falhou a importar `xml`).
+RUN apt-get update && apt-get install -y --no-install-recommends libexpat1 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Camada de dependências primeiro, para aproveitar a cache do Docker.
 COPY pyproject.toml README.md ./
 COPY src ./src
