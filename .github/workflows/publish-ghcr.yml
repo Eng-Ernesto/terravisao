@@ -29,6 +29,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE }}:latest
+          # Além de :latest, uma etiqueta fixa por commit: a Azure App Service (ligada a
+          # "Outros registos de contentor") não repete o docker pull quando a etiqueta não
+          # muda, mesmo depois de Parar/Iniciar. Apontar para :<sha> força sempre a imagem certa.
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
