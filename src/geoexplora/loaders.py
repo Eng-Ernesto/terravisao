@@ -223,12 +223,27 @@ def _geojson_table(gj: dict[str, Any]) -> pd.DataFrame:
 
 
 def _shapefile_table(raw: bytes) -> pd.DataFrame:
+    import zipfile
+
     import geopandas as gpd
 
+    try:
+        names = zipfile.ZipFile(io.BytesIO(raw)).namelist()
+    except zipfile.BadZipFile as exc:
+        raise LoadError("O ficheiro não é um .zip válido.") from exc
+    if not any(n.lower().endswith(".shp") for n in names):
+        raise LoadError(
+            "Este .zip não é um Shapefile de amostras (falta o ficheiro .shp). "
+            "Se o descarregou do TerraVisão («Dados: GeoTIFF e GeoJSON»), esse pacote tem "
+            "mapas e zonas, não amostras — carregue antes um CSV ou GeoJSON de amostras."
+        )
     with tempfile.TemporaryDirectory() as tmp:
         zpath = Path(tmp) / "dados.zip"
         zpath.write_bytes(raw)
-        gdf = gpd.read_file(f"zip://{zpath}")
+        try:
+            gdf = gpd.read_file(f"zip://{zpath}")
+        except Exception as exc:
+            raise LoadError(f"Não foi possível ler o Shapefile: {exc}") from exc
     gdf = gdf[gdf.geometry.geom_type == "Point"].to_crs(4326)
     if gdf.empty:
         raise LoadError("O Shapefile não tem pontos.")

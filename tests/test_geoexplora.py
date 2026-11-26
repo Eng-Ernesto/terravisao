@@ -157,3 +157,55 @@ def test_excel_semicolon_and_decimal_comma():
     assert pts.df["Ce_ppm"].iloc[0] == pytest.approx(100.5)
     assert pts.df["id"].iloc[0] == "S00"  # identificadores não são convertidos
     assert pts.df["lat"].between(-13.0, -12.8).all()
+
+
+# ----------------------------------------------------------------- shapefile (zip de amostras)
+def _shapefile_zip_bytes(n=20) -> bytes:
+    import io
+    import tempfile
+    import zipfile
+    from pathlib import Path
+
+    import geopandas as gpd
+
+    rng = np.random.default_rng(2)
+    gdf = gpd.GeoDataFrame(
+        {"Ce_ppm": rng.uniform(50, 400, n), "La_ppm": rng.uniform(20, 200, n)},
+        geometry=gpd.points_from_xy(
+            15.2 + rng.uniform(0, 0.05, n), -12.9 + rng.uniform(0, 0.05, n)
+        ),
+        crs=4326,
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        gdf.to_file(Path(tmp) / "amostras.shp")
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as zf:
+            for f in Path(tmp).glob("amostras.*"):
+                zf.write(f, f.name)
+        return buf.getvalue()
+
+
+def test_shapefile_zip_is_read_correctly():
+    pytest.importorskip("geopandas")
+    pts = read_points(_shapefile_zip_bytes(), "amostras.zip")
+    assert len(pts.df) == 20 and pts.elements == ["Ce", "La"]
+    assert pts.df["lon"].between(15.0, 15.4).all()
+
+
+def test_non_shapefile_zip_gives_a_clear_error():
+    """Reproduz o engano real: carregar o terravisao_dados.zip (GeoTIFF/GeoJSON) por engano."""
+    pytest.importorskip("geopandas")
+    import io
+    import zipfile
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("zones_terras_raras.geojson", '{"type":"FeatureCollection","features":[]}')
+        zf.writestr("run.json", "{}")
+    with pytest.raises(LoadError, match="TerraVisão"):
+        read_points(buf.getvalue(), "terravisao_dados.zip")
+
+
+def test_truly_invalid_zip_gives_a_clear_error():
+    with pytest.raises(LoadError, match="não é um .zip válido"):
+        read_points(b"isto nao e um zip", "dados.zip")
