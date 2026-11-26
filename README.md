@@ -30,6 +30,8 @@ Comece por [docs/README.md](docs/README.md), que tem o índice e a ordem de leit
 | [15 Roteiro de demonstração](docs/15-roteiro-demonstracao.md) | Sequência e respostas para a apresentação da SAGEO |
 | [14 GeoExplora IA: visão e âmbito](docs/14-geoexplora-ia.md) | Produto, módulos, registo do que entra e do que fica de fora e porquê |
 | [13 Guia Docker](docs/13-guia-docker.md) | Como executar noutro computador, teste offline e validação |
+| [17 Guia Render](docs/17-guia-render.md) | Publicar num link público gratuito (render.com), sem configurar servidor |
+| [18 Guia Azure](docs/18-guia-azure.md) | Publicar no Azure App Service com créditos gratuitos (recomendado se já tem conta Azure) |
 | [Anexo: protótipo GeoExplora IA](docs/anexos/prototipo-geoexplora-ia.md) | Resumo do PDF anterior (Longonjo) |
 
 ## Arranque rápido

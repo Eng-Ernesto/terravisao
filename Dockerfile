@@ -29,5 +29,7 @@ COPY data/geoexplora ./data/geoexplora
 COPY --from=frontend /web/dist ./frontend/dist
 
 EXPOSE 8501
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s   CMD python -c "import urllib.request as u; u.urlopen('http://localhost:8501/api/health')"
-CMD ["python", "-m", "geoexplora.web", "--host", "0.0.0.0", "--port", "8501"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s   CMD python -c "import os,urllib.request as u; u.urlopen(f'http://localhost:{os.environ.get(\"PORT\",8501)}/api/health')"
+# Forma shell (não exec) para expandir $PORT: hospedagens como o Render injectam essa
+# variável e esperam que a app escute nela; localmente (Docker Compose) cai em 8501.
+CMD python -m geoexplora.web --host 0.0.0.0 --port ${PORT:-8501}

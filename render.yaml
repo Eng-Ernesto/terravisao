@@ -1,0 +1,20 @@
+# Blueprint do Render (https://render.com): "New +" → "Blueprint" → escolher este
+# repositório → "Apply". O Render lê este ficheiro e cria o serviço sozinho.
+#
+# Plano gratuito: o serviço adormece ao fim de 15 min sem acessos (demora ~30-60 s a
+# acordar) e o disco não é permanente (uma análise nova do TerraVisão desaparece ao
+# reiniciar). Os exemplos incluídos na imagem (Longonjo, Lubango, os dois conjuntos
+# de terras raras) não são afectados — ficam sempre disponíveis.
+services:
+  - type: web
+    name: geoexplora-ia
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: TERRAVISAO_CACHE_DIR
+        value: /srv/data/cache
+      - key: GEOEXPLORA_ROOT
+        value: /srv

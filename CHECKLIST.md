@@ -122,3 +122,10 @@ Marque `[x]` ao concluir. IDs referem-se a [docs/08-plano-backlog.md](docs/08-pl
 - [x] Análise de mapa com os módulos do protótipo: Visão geral, Assistente geológico, Cartografia, Análise de dados, Inteligência artificial, Relatório
 - [x] TerraVisão com minerais críticos (terras raras, cobre, lítio, manganês) e exemplos regenerados (ADR-23)
 - [ ] 21 províncias: falta ficheiro oficial com as fronteiras novas (ADR-24); pedir `Angola_Provincias_v2.geojson` à equipa
+
+## Hospedagem (26 de Novembro)
+
+- [x] `render.yaml` (Blueprint) e CMD do Dockerfile a honrar `$PORT`, para publicar no Render de forma gratuita (docs/17)
+- [ ] Publicação no Render testada de facto (precisa da conta do utilizador; não posso criar contas por ele)
+- [ ] Confirmar tempo de build real no Render (GDAL + Node) e se o plano gratuito aguenta a demonstração
+- [x] Guia Azure App Service (docs/18), com o ajuste de `WEBSITES_PORT=8501` necessário para o Dockerfile existente
